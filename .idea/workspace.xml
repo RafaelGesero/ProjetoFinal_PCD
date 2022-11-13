@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="97e05c3b-bc3d-4625-935e-325021ad0fee" name="Changes" comment="fbuauf">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/game/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/game/PhoneyHumanPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/game/PhoneyHumanPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/game/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/game/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gui/BoardJComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/gui/BoardJComponent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gui/GameGuiMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/gui/GameGuiMain.java" afterDir="false" />
-    </list>
+    <list default="true" id="97e05c3b-bc3d-4625-935e-325021ad0fee" name="Changes" comment="inicio" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -58,7 +51,7 @@
       <updated>1668356111114</updated>
       <workItem from="1668356112289" duration="7000" />
       <workItem from="1668356190882" duration="985000" />
-      <workItem from="1668357252517" duration="4948000" />
+      <workItem from="1668357252517" duration="5248000" />
     </task>
     <task id="LOCAL-00001" summary="modificaçao">
       <created>1668356911311</created>
@@ -81,7 +74,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668357041743</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="inicio">
+      <created>1668362545784</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1668362545784</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -101,6 +101,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="modificaçao" />
     <MESSAGE value="fbuauf" />
-    <option name="LAST_COMMIT_MESSAGE" value="fbuauf" />
+    <MESSAGE value="inicio" />
+    <option name="LAST_COMMIT_MESSAGE" value="inicio" />
   </component>
 </project>
