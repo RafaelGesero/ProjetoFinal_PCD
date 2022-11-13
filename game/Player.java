@@ -9,7 +9,7 @@ import environment.Cell;
  * @author luismota
  *
  */
-public abstract class Player  {
+public abstract class Player implements Runnable{
 
 
 	protected  Game game;
@@ -24,12 +24,12 @@ public abstract class Player  {
 		return null;
 	}
 
-	public Player(int id, Game game, byte strength) {
+	public Player(int id, Game game) {
 		super();
 		this.id = id;
 		this.game=game;
-		currentStrength=strength;
-		originalStrength=strength;
+		originalStrength = inicialStrenght();
+		currentStrength = originalStrength;
 	}
 
 	public abstract boolean isHumanPlayer();
@@ -70,4 +70,16 @@ public abstract class Player  {
 	public int getIdentification() {
 		return id;
 	}
+
+	public  byte inicialStrenght (){
+
+		byte min = 1;
+		byte max = 3;
+		byte range = (byte) (max - min + 1);
+		byte strenght = (byte) ((Math.random() * range) + min);
+
+		return strenght;
+	}
 }
+
+

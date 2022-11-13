@@ -1,7 +1,7 @@
 package game;
 
 
-//teste1234
+
 import java.util.Observable;
 import environment.Cell;
 import environment.Coordinate;
