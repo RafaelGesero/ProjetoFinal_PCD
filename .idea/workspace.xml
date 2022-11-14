@@ -5,6 +5,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/environment/Cell.java" beforeDir="false" afterPath="$PROJECT_DIR$/environment/Cell.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game/PhoneyHumanPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/game/PhoneyHumanPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/game/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gui/GameGuiMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/gui/GameGuiMain.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -57,7 +58,7 @@
       <workItem from="1668356112289" duration="7000" />
       <workItem from="1668356190882" duration="985000" />
       <workItem from="1668357252517" duration="5342000" />
-      <workItem from="1668431220755" duration="2689000" />
+      <workItem from="1668431220755" duration="9110000" />
     </task>
     <task id="LOCAL-00001" summary="modificaçao">
       <created>1668356911311</created>
@@ -94,7 +95,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668362606264</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="inicio">
+      <created>1668434163684</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1668434163684</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

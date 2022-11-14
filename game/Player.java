@@ -3,6 +3,7 @@ package game;
 
 
 import environment.Cell;
+import environment.Coordinate;
 
 /**
  * Represents a player.
@@ -15,13 +16,16 @@ public abstract class Player implements Runnable{
 	protected  Game game;
 	private int id;
 
+	private Cell currentCell;
+
 	private byte currentStrength;
 	protected byte originalStrength;
 
 	// TODO: get player position from data in game
 	public Cell getCurrentCell() {
-		return null;
+		return currentCell;
 	}
+
 
 	public Player(int id, Game game) {
 		super();
@@ -71,13 +75,15 @@ public abstract class Player implements Runnable{
 	}
 
 	public  byte inicialStrenght (){
-
-		byte min = 1;
-		byte max = 3;
-		byte range = (byte) (max - min + 1);
-		byte strenght = (byte) ((Math.random() * range) + min);
+		byte range = (byte) (game.MAX_INITIAL_STRENGTH - 1 + 1);
+		byte strenght = (byte) ((Math.random() * range) + 1);
 
 		return strenght;
+	}
+
+	public void returnPos(Cell currentCell){
+		this.currentCell = currentCell;
+		System.out.println(currentCell);
 	}
 }
 

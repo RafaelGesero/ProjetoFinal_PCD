@@ -4,6 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 import game.Game;
 import game.PhoneyHumanPlayer;
+import game.Player;
 
 import javax.swing.JFrame;
 
@@ -42,10 +43,12 @@ public class GameGuiMain implements Observer {
 			e.printStackTrace();
 		}
 
-
-		game.addPlayerToGame(new PhoneyHumanPlayer(1, game));
-		game.addPlayerToGame(new PhoneyHumanPlayer(2, game));
-		game.addPlayerToGame(new PhoneyHumanPlayer(3, game));
+		Player p1 = new PhoneyHumanPlayer(1, game);
+		game.addPlayerToGame(p1);
+		Thread t1 = new Thread(p1);
+		t1.start();
+		//game.addPlayerToGame(new PhoneyHumanPlayer(2, game));
+		//game.addPlayerToGame(new PhoneyHumanPlayer(3, game));
 
 
 

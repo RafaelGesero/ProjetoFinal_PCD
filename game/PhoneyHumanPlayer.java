@@ -1,5 +1,7 @@
 package game;
 
+import environment.Cell;
+import environment.Coordinate;
 import environment.Direction;
 
 /**
@@ -36,12 +38,27 @@ public class PhoneyHumanPlayer extends Player  {
 
 	public void move(){
 		Direction goTo = moveTo();
+		getCurrentCell().setPlayerToNull();
+		Coordinate cutrrentCor = getCurrentCell().getPosition();
+		Coordinate newCor = cutrrentCor.translate(goTo.getVector());
+		game.getCell(newCor).setPlayer(this);
+
+
 
 	}
 
 
 	@Override
 	public void run() {
+		for(int i = 0; i < 10; i++){
+			try {
+				Thread.sleep(game.REFRESH_INTERVAL);
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
+			move();
+			game.notifyChange();
+		}
 
 	}
 }
