@@ -14,6 +14,12 @@ public class Cell {
 		this.game=g;
 	}
 
+	public String toString(){
+		String str = position.toString();
+		return str;
+
+	}
+
 	public Coordinate getPosition() {
 		return position;
 	}

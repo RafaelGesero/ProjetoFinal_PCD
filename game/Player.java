@@ -13,7 +13,6 @@ public abstract class Player implements Runnable{
 
 
 	protected  Game game;
-
 	private int id;
 
 	private byte currentStrength;
