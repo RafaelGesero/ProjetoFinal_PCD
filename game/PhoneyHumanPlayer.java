@@ -21,8 +21,7 @@ public class PhoneyHumanPlayer extends Player  {
 	private Direction moveTo(){
 		int min = 1;
 		int max = 4;
-		int range =  max - min + 1;
-		int rand = (int) ((Math.random() * range) + min);
+		int rand = (int) ((Math.random() * max) + min);
 		switch (rand) {
 			case 1:
 				return Direction.UP;
@@ -36,21 +35,25 @@ public class PhoneyHumanPlayer extends Player  {
 		return null;
 	}
 
-	public void move(){
+	public synchronized void  move(){
 		Direction goTo = moveTo();
-		getCurrentCell().setPlayerToNull();
-		Coordinate cutrrentCor = getCurrentCell().getPosition();
-		Coordinate newCor = cutrrentCor.translate(goTo.getVector());
-		game.getCell(newCor).setPlayer(this);
-
-
+		Coordinate currentCor = getCurrentCell().getPosition();
+		Coordinate newCor = currentCor.translate(goTo.getVector());
+		if((newCor.x < 0 && newCor.y < 0) || (newCor.x < 0 && newCor.y > game.DIMY)
+				|| (newCor.x > game.DIMX && newCor.y < 0) || (newCor.x > game.DIMX && newCor.y > game.DIMY)){
+			System.out.println("entou no if ");
+			return;
+		}else{
+			getCurrentCell().setPlayerToNull();
+			game.getCell(newCor).setPlayer(this);
+		}
 
 	}
 
 
 	@Override
 	public void run() {
-		for(int i = 0; i < 10; i++){
+		for(int i = 0; i < 100; i++){
 			try {
 				Thread.sleep(game.REFRESH_INTERVAL);
 			} catch (InterruptedException e) {
