@@ -2,6 +2,8 @@ package game;
 
 
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Observable;
 import environment.Cell;
 import environment.Coordinate;
@@ -18,6 +20,9 @@ public class Game extends Observable {
 	public static final long MAX_WAITING_TIME_FOR_MOVE = 2000;
 	public static final long INITIAL_WAITING_TIME = 10000;
 
+
+
+
 	protected Cell[][] board;
 
 	public Game() {
@@ -26,14 +31,32 @@ public class Game extends Observable {
 		for (int x = 0; x < Game.DIMX; x++) 
 			for (int y = 0; y < Game.DIMY; y++) 
 				board[x][y] = new Cell(new Coordinate(x, y),this);
+
+
 	}
 	
 	/** 
 	 * @param player 
 	 */
-	public void addPlayerToGame(Player player) {
+	public synchronized void addPlayerToGame(Player player) {
+
+		while(getRandomCell().isOcupied()==true){
+
+
+			try {
+				System.out.println(player);
+				wait();
+			} catch(InterruptedException e) {
+
+				Thread.currentThread().interrupt();
+				return;
+			}
+		}
+
+
 		Cell initialPos=getRandomCell();
 		initialPos.setPlayer(player);
+
 		
 		// To update GUI
 		notifyChange();
@@ -53,7 +76,12 @@ public class Game extends Observable {
 	}
 
 	public Cell getRandomCell() {
+
+
+		//Cell c1 = getCell(new Coordinate(1,2));
+
+
 		Cell newCell=getCell(new Coordinate((int)(Math.random()*Game.DIMX),(int)(Math.random()*Game.DIMY)));
-		return newCell; 
+		return newCell;
 	}
 }
