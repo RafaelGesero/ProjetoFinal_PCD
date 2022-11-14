@@ -28,6 +28,10 @@ public class Cell {
 		return player!=null;
 	}
 
+	public void setPlayerToNull(){
+		player = null;
+	}
+
 
 	public Player getPlayer() {
 		return player;
@@ -36,6 +40,7 @@ public class Cell {
 	// Should not be used like this in the initial state: cell might be occupied, must coordinate this operation
 	public void setPlayer(Player player) {
 		this.player = player;
+		player.returnPos(this);
 	}
 	
 	
