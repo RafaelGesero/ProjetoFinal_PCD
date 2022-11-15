@@ -5,8 +5,10 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/game/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game/PhoneyHumanPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/game/PhoneyHumanPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/game/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/game/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gui/GameGuiMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/gui/GameGuiMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Projeto2022Agar.io_Base/game/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Projeto2022Agar.io_Base/game/Game.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Projeto2022Agar.io_Base/game/PhoneyHumanPlayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Projeto2022Agar.io_Base/game/PhoneyHumanPlayer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Projeto2022Agar.io_Base/gui/GameGuiMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Projeto2022Agar.io_Base/gui/GameGuiMain.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,6 +68,7 @@
       <workItem from="1668521394924" duration="190000" />
       <workItem from="1668521760155" duration="135000" />
       <workItem from="1668521914113" duration="4000" />
+      <workItem from="1668522017233" duration="3648000" />
     </task>
     <task id="LOCAL-00001" summary="modificaçao">
       <created>1668356911311</created>
@@ -123,7 +126,35 @@
       <option name="project" value="LOCAL" />
       <updated>1668444160274</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="move">
+      <created>1668522152893</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1668522152893</updated>
+    </task>
+    <task id="LOCAL-00010" summary="move">
+      <created>1668526689065</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1668526689065</updated>
+    </task>
+    <task id="LOCAL-00011" summary="move">
+      <created>1668526894282</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1668526894283</updated>
+    </task>
+    <task id="LOCAL-00012" summary="move">
+      <created>1668526948981</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1668526948981</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
