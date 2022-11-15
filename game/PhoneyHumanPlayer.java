@@ -1,5 +1,6 @@
 package game;
 
+import com.sun.source.tree.NewClassTree;
 import environment.Cell;
 import environment.Coordinate;
 import environment.Direction;
@@ -35,37 +36,21 @@ public class PhoneyHumanPlayer extends Player  {
 		return null;
 	}
 
-	public synchronized void  move(){
+	public synchronized void  move() {
 		Direction goTo = moveTo();
 		Coordinate currentCor = getCurrentCell().getPosition();
 		Coordinate newCoor = currentCor.translate(goTo.getVector());
-		System.out.println(game.DIMX);
-		System.out.println(game.DIMY);
-		System.out.println(newCoor);
-		if(newCoor.x < 0 && newCoor.y <0 ){
-
-		}else if(newCoor.x <0 && newCoor.y > game.DIMY){
-			System.out.println("entrou no 1 if");
-		}else if(newCoor.x > game.DIMX && newCoor.y < 0 ){
-			System.out.println("entrou no 2 if");
-		}else if(newCoor.x > game.DIMX && newCoor.y > game.DIMY){
-			System.out.println("entrou no 3 if");
-		}else {
-			System.out.println("entrou no else ");
+		if(!(newCoor.x < 0 || newCoor.y < 0 || newCoor.x > game.DIMX ||newCoor.y > game.DIMY)){
 			getCurrentCell().setPlayerToNull();
 			game.getCell(newCoor).setPlayer(this);
 		}
-
-		System.out.println("---------------------------");
-
 	}
-
 
 	@Override
 	public void run() {
-		for(int i = 0; i < 100; i++){
+		while(true){
 			try {
-				Thread.sleep(2000);
+				Thread.sleep(game.REFRESH_INTERVAL);
 			} catch (InterruptedException e) {
 				throw new RuntimeException(e);
 			}
