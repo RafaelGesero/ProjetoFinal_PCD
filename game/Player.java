@@ -75,15 +75,11 @@ public abstract class Player implements Runnable{
 	}
 
 	public  byte inicialStrenght (){
-		byte range = (byte) (game.MAX_INITIAL_STRENGTH - 1 + 1);
-		byte strenght = (byte) ((Math.random() * range) + 1);
-
-		return strenght;
+		return (byte) ((Math.random() * game.MAX_INITIAL_STRENGTH) + 1);
 	}
 
 	public void returnPos(Cell currentCell){
 		this.currentCell = currentCell;
-		System.out.println(currentCell);
 	}
 }
 
