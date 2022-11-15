@@ -48,22 +48,13 @@ public class GameGuiMain implements Observer {
 		Player p3 = new PhoneyHumanPlayer(3, game);
 
 
-		game.addPlayerToGame(p1);
-		game.addPlayerToGame(p2);
-		game.addPlayerToGame(p3);
-
 		Thread t1 = new Thread(p1);
 		Thread t2 = new Thread(p2);
-		Thread t3 = new Thread(p3);
+		//Thread t3 = new Thread(p3);
 
 		t1.start();
-		//t2.start();
+		t2.start();
 		//t3.start();
-
-		//game.addPlayerToGame(new PhoneyHumanPlayer(2, game));
-		//game.addPlayerToGame(new PhoneyHumanPlayer(3, game));
-
-
 
 	}
 

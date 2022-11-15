@@ -28,8 +28,9 @@ public class Cell {
 		return player!=null;
 	}
 
-	public void setPlayerToNull(){
+	public synchronized void setPlayerToNull(){
 		player = null;
+		notifyAll();
 	}
 
 
@@ -38,7 +39,10 @@ public class Cell {
 	}
 
 	// Should not be used like this in the initial state: cell might be occupied, must coordinate this operation
-	public void setPlayer(Player player) {
+	public  synchronized void setPlayer(Player player) throws InterruptedException {
+		while(isOcupied()){
+			wait();
+		}
 		this.player = player;
 		player.returnPos(this);
 	}

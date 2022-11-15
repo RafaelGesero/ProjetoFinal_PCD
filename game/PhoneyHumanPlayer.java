@@ -11,8 +11,11 @@ import environment.Direction;
  *
  */
 public class PhoneyHumanPlayer extends Player  {
+
+	private int countMove;
 	public PhoneyHumanPlayer(int id, Game game) {
 		super(id, game);
+		countMove = originalStrength;
 	}
 
 	public boolean isHumanPlayer() {
@@ -36,18 +39,29 @@ public class PhoneyHumanPlayer extends Player  {
 		return null;
 	}
 
-	public synchronized void  move() {
-		Direction goTo = moveTo();
-		Coordinate currentCor = getCurrentCell().getPosition();
-		Coordinate newCoor = currentCor.translate(goTo.getVector());
-		if(!(newCoor.x < 0 || newCoor.y < 0 || newCoor.x > game.DIMX ||newCoor.y > game.DIMY)){
-			getCurrentCell().setPlayerToNull();
-			game.getCell(newCoor).setPlayer(this);
+	public  void  move() {
+		if(countMove == 1){
+			Direction goTo = moveTo();
+			Coordinate currentCor = getCurrentCell().getPosition();
+			Coordinate newCoor = currentCor.translate(goTo.getVector());
+			if(!(newCoor.x < 0 || newCoor.y < 0 || newCoor.x >= game.DIMX ||newCoor.y >= game.DIMY)){
+				getCurrentCell().setPlayerToNull();
+				try {
+					game.getCell(newCoor).setPlayer(this);
+				} catch (InterruptedException e) {
+					throw new RuntimeException(e);
+				}
+			}
+			countMove = originalStrength;
+		}else{
+			countMove--;
 		}
+
 	}
 
 	@Override
 	public void run() {
+		game.addPlayerToGame(this);
 		while(true){
 			try {
 				Thread.sleep(game.REFRESH_INTERVAL);
