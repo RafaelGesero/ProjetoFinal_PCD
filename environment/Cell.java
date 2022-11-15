@@ -45,6 +45,7 @@ public class Cell {
 		}
 		this.player = player;
 		player.returnPos(this);
+		System.out.println(player.getIdentification());
 	}
 	
 	
