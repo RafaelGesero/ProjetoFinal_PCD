@@ -38,15 +38,25 @@ public class PhoneyHumanPlayer extends Player  {
 	public synchronized void  move(){
 		Direction goTo = moveTo();
 		Coordinate currentCor = getCurrentCell().getPosition();
-		Coordinate newCor = currentCor.translate(goTo.getVector());
-		if((newCor.x < 0 && newCor.y < 0) || (newCor.x < 0 && newCor.y > game.DIMY)
-				|| (newCor.x > game.DIMX && newCor.y < 0) || (newCor.x > game.DIMX && newCor.y > game.DIMY)){
-			System.out.println("entou no if ");
-			return;
-		}else{
+		Coordinate newCoor = currentCor.translate(goTo.getVector());
+		System.out.println(game.DIMX);
+		System.out.println(game.DIMY);
+		System.out.println(newCoor);
+		if(newCoor.x < 0 && newCoor.y <0 ){
+
+		}else if(newCoor.x <0 && newCoor.y > game.DIMY){
+			System.out.println("entrou no 1 if");
+		}else if(newCoor.x > game.DIMX && newCoor.y < 0 ){
+			System.out.println("entrou no 2 if");
+		}else if(newCoor.x > game.DIMX && newCoor.y > game.DIMY){
+			System.out.println("entrou no 3 if");
+		}else {
+			System.out.println("entrou no else ");
 			getCurrentCell().setPlayerToNull();
-			game.getCell(newCor).setPlayer(this);
+			game.getCell(newCoor).setPlayer(this);
 		}
+
+		System.out.println("---------------------------");
 
 	}
 
@@ -55,7 +65,7 @@ public class PhoneyHumanPlayer extends Player  {
 	public void run() {
 		for(int i = 0; i < 100; i++){
 			try {
-				Thread.sleep(game.REFRESH_INTERVAL);
+				Thread.sleep(2000);
 			} catch (InterruptedException e) {
 				throw new RuntimeException(e);
 			}
