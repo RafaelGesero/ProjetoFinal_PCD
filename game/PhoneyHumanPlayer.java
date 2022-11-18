@@ -42,37 +42,25 @@ public class PhoneyHumanPlayer extends Player  {
 		}
 		return null;
 	}
-
-
 	public void fight(Player p){
 
-		byte a = p.getCurrentStrength();
-		byte b = this.getCurrentStrength();
+		System.out.println(p.getCurrentStrength());
+		System.out.println("--------");
+		System.out.println(getCurrentStrength());
 
-		int output = Byte.compare(a,b);
-		System.out.println("comprar ambos: " + output);
-
-		System.out.println("estou aqui");
-
-		if(p.getCurrentStrength() > this.getCurrentStrength()){
-			System.out.print("abc");
-			p.setstrenght = originalStrength;
+		if(p.getCurrentStrength() > getCurrentStrength()){
+			//tu estas a colocar o força de um no outro, tens de somar as duas e eleminar o masi fraco, eu fiz a função que soma o svalores na classe player
+			//p.setstrenght = originalStrength;
 			this.getCurrentCell().setPlayerToNull();
 			System.out.println("o player morreu " + this.getIdentification() + this);
-
 		} else{
-
 			System.out.println("deste lado");
-			this.setstrenght = originalStrength;
+			//this.setstrenght = originalStrength;
 			this.getCurrentCell().setPlayerToNull();
 			System.out.println("o player morreu deste lado " + this.getIdentification() + this);
-
 		}
-
-
-
-
 	}
+
 
 	public  void  move() throws InterruptedException {
 		Direction goTo = moveTo();
@@ -80,6 +68,7 @@ public class PhoneyHumanPlayer extends Player  {
 		Coordinate newCoor = currentCor.translate(goTo.getVector());
 
 		if(countMove == 1){
+			//o if que tu fazes no final esta mal, o que tu esta a fazer é mover o player e dps é que vais ver se esta ocupado, tens de fazer esta confirmação antes do movimento
 			if(!(newCoor.x < 0 || newCoor.y < 0 || newCoor.x >= game.DIMX ||newCoor.y >= game.DIMY)){
 				getCurrentCell().setPlayerToNull();
 				try {
@@ -92,8 +81,8 @@ public class PhoneyHumanPlayer extends Player  {
 		}else{
 			countMove--;
 		}
+		//nao funciona, ver o com que esta a cima, quando invocas a função fight(this) esta a fazer com que o player p1 lute com ele mesmo, antes do mov tens de ver a se a ceel ja esta acupada e se estiver vais buscar esse player e fazes fight("esse player")
 		if(getCurrentCell().isOcupied()){
-			System.out.println("entrei aqui");
 			fight(this);
 		}
 		}
@@ -101,7 +90,7 @@ public class PhoneyHumanPlayer extends Player  {
 
 	@Override
 	public void run() {
-		game.addPlayerToGame(this);
+		addPlayerToGame();
 		while(true){
 			try {
 				Thread.sleep(game.REFRESH_INTERVAL);

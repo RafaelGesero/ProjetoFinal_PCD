@@ -1,7 +1,5 @@
 package game;
 
-
-
 import environment.Cell;
 
 
@@ -15,7 +13,6 @@ public abstract class Player implements Runnable{
 
 	protected  Game game;
 	private final int id;
-	protected byte setstrenght;
 
 	private Cell currentCell;
 
@@ -80,11 +77,27 @@ public abstract class Player implements Runnable{
 	}
 
 	public  byte inicialStrenght (){
+
 		return (byte) ((Math.random() * game.MAX_INITIAL_STRENGTH) + 1);
+	}
+
+	public byte sumStrenght(Player losePlayer){
+		byte loseStrPlayer = losePlayer.getCurrentStrength();
+		return (byte) (currentStrength + loseStrPlayer);
 	}
 
 	public void returnPos(Cell currentCell){
 		this.currentCell = currentCell;
+	}
+
+	public void addPlayerToGame(){
+		currentCell = game.getRandomCell();
+		try {
+			currentCell.setPlayer(this);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+		game.notifyChange();
 	}
 
 

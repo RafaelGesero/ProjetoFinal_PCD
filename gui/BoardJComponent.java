@@ -81,7 +81,7 @@ public class BoardJComponent extends JComponent implements KeyListener {
 						g.fillRect((int)(p.x* cellWidth),
 								(int)(p.y * cellHeight),
 								(int)(cellWidth),(int)(cellHeight));
-						g.drawImage(humanPlayerImage, (int)(p.x * cellWidth), (int)(p.y*cellHeight),
+						g.drawImage(null, (int)(p.x * cellWidth), (int)(p.y*cellHeight),
 								(int)(cellWidth),(int)(cellHeight), null);
 					}
 

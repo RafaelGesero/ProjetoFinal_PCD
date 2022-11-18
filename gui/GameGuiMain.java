@@ -28,7 +28,7 @@ public class GameGuiMain implements Observer {
 
 
 		frame.setSize(800,800);
-		frame.setLocation(0, 150);
+		frame.setLocation(500, 150);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
@@ -43,18 +43,13 @@ public class GameGuiMain implements Observer {
 			e.printStackTrace();
 		}
 
-		Player p1 = new PhoneyHumanPlayer(1, game);
-		Player p2 = new PhoneyHumanPlayer(2, game);
-		Player p3 = new PhoneyHumanPlayer(3, game);
+		for(int i = 0; i < 2; i++){
+			Player p1 = new PhoneyHumanPlayer(i, game);
+			Thread t1 = new Thread(p1);
+			t1.start();
+		}
 
 
-		Thread t1 = new Thread(p1);
-		Thread t2 = new Thread(p2);
-		//Thread t3 = new Thread(p3);
-
-		t1.start();
-		t2.start();
-		//t3.start();
 
 	}
 

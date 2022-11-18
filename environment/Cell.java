@@ -3,10 +3,15 @@ package environment;
 import game.Game;
 import game.Player;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 public class Cell {
 	private Coordinate position;
 	private Game game;
 	private Player player=null;
+	private Lock l = new ReentrantLock();
+
 	
 	public Cell(Coordinate position,Game g) {
 		super();
@@ -29,8 +34,12 @@ public class Cell {
 	}
 
 	public synchronized void setPlayerToNull(){
-		player = null;
-		notifyAll();
+		l.lock();
+		try{
+			player = null;
+		}finally {
+			l.unlock();
+		}
 	}
 
 
@@ -40,12 +49,14 @@ public class Cell {
 
 	// Should not be used like this in the initial state: cell might be occupied, must coordinate this operation
 	public  synchronized void setPlayer(Player player) throws InterruptedException {
-		//while(isOcupied()){
-		//	wait();
-		//}
-		this.player = player;
-		player.returnPos(this);
-		//System.out.println(player.getIdentification());
+		l.lock();
+		try{
+			this.player = player;
+			player.returnPos(this);
+		}finally {
+			l.unlock();
+		}
+
 	}
 	
 	
