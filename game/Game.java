@@ -37,6 +37,19 @@ public class Game extends Observable {
 
 	}
 	
+	/** 
+	 * @param player 
+	 */
+	public void addPlayerToGame(Player player) {
+		Cell initialPos=getRandomCell();
+		try {
+			initialPos.setPlayer(player);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+		notifyChange();
+		
+	}
 
 	public Cell getCell(Coordinate at) {
 		return board[at.x][at.y];
@@ -51,6 +64,8 @@ public class Game extends Observable {
 	}
 
 	public Cell getRandomCell() {
+
+
 		Cell newCell=getCell(new Coordinate((int)(Math.random()*Game.DIMX),(int)(Math.random()*Game.DIMY)));
 		return newCell;
 

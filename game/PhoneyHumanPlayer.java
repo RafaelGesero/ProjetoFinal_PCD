@@ -5,6 +5,9 @@ import environment.Cell;
 import environment.Coordinate;
 import environment.Direction;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Class to demonstrate a player being added to the game.
  * @author luismota
@@ -20,6 +23,7 @@ public class PhoneyHumanPlayer extends Player  {
 	public PhoneyHumanPlayer(int id, Game game) {
 		super(id, game);
 		countMove = originalStrength;
+
 	}
 
 	public boolean isHumanPlayer() {
@@ -43,22 +47,46 @@ public class PhoneyHumanPlayer extends Player  {
 		return null;
 	}
 	public void fight(Player p){
-
-		System.out.println(p.getCurrentStrength());
-		System.out.println("--------");
-		System.out.println(getCurrentStrength());
+		//System.out.println(p.getCurrentStrength());
+		//System.out.println("--------");
+		//System.out.println(getCurrentStrength());
 
 		if(p.getCurrentStrength() > getCurrentStrength()){
 			//tu estas a colocar o força de um no outro, tens de somar as duas e eleminar o masi fraco, eu fiz a função que soma o svalores na classe player
-			//p.setstrenght = originalStrength;
-			this.getCurrentCell().setPlayerToNull();
-			System.out.println("o player morreu " + this.getIdentification() + this);
-		} else{
+		System.out.println("entrei no maior");
+			p.sumStrenght(this);
+			getCurrentCell().setPlayerToNull();
+			//System.out.println("o player morreu " + this.getIdentification() + this);
+		} else if(p.getCurrentStrength() < getCurrentStrength()){
 			System.out.println("deste lado");
-			//this.setstrenght = originalStrength;
-			this.getCurrentCell().setPlayerToNull();
+			this.sumStrenght(p);
+			p.getCurrentCell().setPlayerToNull();
 			System.out.println("o player morreu deste lado " + this.getIdentification() + this);
+		} else {
+
+
+
 		}
+
+
+
+		public void removeRandom(Player p){
+			List<Player> list = new ArrayList<>();
+			list.add(p);
+			list.add(this);
+
+
+
+
+
+
+			}
+
+		}
+
+
+
+
 	}
 
 
@@ -66,6 +94,14 @@ public class PhoneyHumanPlayer extends Player  {
 		Direction goTo = moveTo();
 		Coordinate currentCor = getCurrentCell().getPosition();
 		Coordinate newCoor = currentCor.translate(goTo.getVector());
+
+		Cell c1 = game.getCell(newCoor);
+
+		if(c1.isOcupied()){
+			System.out.print("estou no fight");
+			fight(c1.getPlayer());
+			System.out.println("lutei");
+		}
 
 		if(countMove == 1){
 			//o if que tu fazes no final esta mal, o que tu esta a fazer é mover o player e dps é que vais ver se esta ocupado, tens de fazer esta confirmação antes do movimento
@@ -82,9 +118,6 @@ public class PhoneyHumanPlayer extends Player  {
 			countMove--;
 		}
 		//nao funciona, ver o com que esta a cima, quando invocas a função fight(this) esta a fazer com que o player p1 lute com ele mesmo, antes do mov tens de ver a se a ceel ja esta acupada e se estiver vais buscar esse player e fazes fight("esse player")
-		if(getCurrentCell().isOcupied()){
-			fight(this);
-		}
 		}
 
 

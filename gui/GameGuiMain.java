@@ -2,6 +2,9 @@ package gui;
 
 import java.util.Observable;
 import java.util.Observer;
+
+import environment.Cell;
+import environment.Coordinate;
 import game.Game;
 import game.PhoneyHumanPlayer;
 import game.Player;
@@ -43,13 +46,16 @@ public class GameGuiMain implements Observer {
 			e.printStackTrace();
 		}
 
-		for(int i = 0; i < 2; i++){
-			Player p1 = new PhoneyHumanPlayer(i, game);
-			Thread t1 = new Thread(p1);
-			t1.start();
-		}
+
+		Player p1 = new PhoneyHumanPlayer(1, game);
+		Player p2 = new PhoneyHumanPlayer(2, game);
 
 
+		Thread t1 = new Thread(p1);
+		Thread t2 = new Thread(p2);
+
+		t1.start();
+		t2.start();
 
 	}
 
