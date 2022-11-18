@@ -3,7 +3,7 @@ package game;
 
 
 import environment.Cell;
-import environment.Coordinate;
+
 
 /**
  * Represents a player.
@@ -14,12 +14,17 @@ public abstract class Player implements Runnable{
 
 
 	protected  Game game;
-	private int id;
+	private final int id;
+	protected byte setstrenght;
 
 	private Cell currentCell;
 
-	private byte currentStrength;
+	private final byte currentStrength;
 	protected byte originalStrength;
+
+
+
+
 
 	// TODO: get player position from data in game
 	public Cell getCurrentCell() {
@@ -81,6 +86,11 @@ public abstract class Player implements Runnable{
 	public void returnPos(Cell currentCell){
 		this.currentCell = currentCell;
 	}
+
+
+
+
+
 }
 
 

@@ -40,12 +40,12 @@ public class Cell {
 
 	// Should not be used like this in the initial state: cell might be occupied, must coordinate this operation
 	public  synchronized void setPlayer(Player player) throws InterruptedException {
-		while(isOcupied()){
-			wait();
-		}
+		//while(isOcupied()){
+		//	wait();
+		//}
 		this.player = player;
 		player.returnPos(this);
-		System.out.println(player.getIdentification());
+		//System.out.println(player.getIdentification());
 	}
 	
 	

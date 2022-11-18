@@ -10,9 +10,13 @@ import environment.Direction;
  * @author luismota
  *
  */
+
+
+
 public class PhoneyHumanPlayer extends Player  {
 
 	private int countMove;
+
 	public PhoneyHumanPlayer(int id, Game game) {
 		super(id, game);
 		countMove = originalStrength;
@@ -39,11 +43,43 @@ public class PhoneyHumanPlayer extends Player  {
 		return null;
 	}
 
-	public  void  move() {
+
+	public void fight(Player p){
+
+		byte a = p.getCurrentStrength();
+		byte b = this.getCurrentStrength();
+
+		int output = Byte.compare(a,b);
+		System.out.println("comprar ambos: " + output);
+
+		System.out.println("estou aqui");
+
+		if(p.getCurrentStrength() > this.getCurrentStrength()){
+			System.out.print("abc");
+			p.setstrenght = originalStrength;
+			this.getCurrentCell().setPlayerToNull();
+			System.out.println("o player morreu " + this.getIdentification() + this);
+
+		} else{
+
+			System.out.println("deste lado");
+			this.setstrenght = originalStrength;
+			this.getCurrentCell().setPlayerToNull();
+			System.out.println("o player morreu deste lado " + this.getIdentification() + this);
+
+		}
+
+
+
+
+	}
+
+	public  void  move() throws InterruptedException {
+		Direction goTo = moveTo();
+		Coordinate currentCor = getCurrentCell().getPosition();
+		Coordinate newCoor = currentCor.translate(goTo.getVector());
+
 		if(countMove == 1){
-			Direction goTo = moveTo();
-			Coordinate currentCor = getCurrentCell().getPosition();
-			Coordinate newCoor = currentCor.translate(goTo.getVector());
 			if(!(newCoor.x < 0 || newCoor.y < 0 || newCoor.x >= game.DIMX ||newCoor.y >= game.DIMY)){
 				getCurrentCell().setPlayerToNull();
 				try {
@@ -56,8 +92,12 @@ public class PhoneyHumanPlayer extends Player  {
 		}else{
 			countMove--;
 		}
+		if(getCurrentCell().isOcupied()){
+			System.out.println("entrei aqui");
+			fight(this);
+		}
+		}
 
-	}
 
 	@Override
 	public void run() {
@@ -68,7 +108,11 @@ public class PhoneyHumanPlayer extends Player  {
 			} catch (InterruptedException e) {
 				throw new RuntimeException(e);
 			}
-			move();
+			try {
+				move();
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
 			game.notifyChange();
 		}
 
