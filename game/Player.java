@@ -16,12 +16,10 @@ public abstract class Player implements Runnable{
 
 	private Cell currentCell;
 
-	private byte currentStrength;
+	protected byte currentStrength;
 	protected final  byte originalStrength;
 
-
-
-
+	protected Estado estadoAtual;
 
 	// TODO: get player position from data in game
 	public Cell getCurrentCell() {
@@ -35,6 +33,7 @@ public abstract class Player implements Runnable{
 		this.game=game;
 		originalStrength = inicialStrenght();
 		currentStrength = originalStrength;
+		estadoAtual = Estado.ESPERA;
 	}
 
 	public abstract boolean isHumanPlayer();
@@ -69,6 +68,10 @@ public abstract class Player implements Runnable{
 
 	public byte getCurrentStrength() {
 		return currentStrength;
+	}
+
+	public int getEstadoAtual(){
+		return estadoAtual.getEstadoAtual();
 	}
 
 	public void setCurrentStrength(byte currentStrength){

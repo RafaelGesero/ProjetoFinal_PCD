@@ -50,7 +50,6 @@ public class GameGuiMain implements Observer {
 		Player p1 = new PhoneyHumanPlayer(1, game);
 		Player p2 = new PhoneyHumanPlayer(2, game);
 
-
 		Thread t1 = new Thread(p1);
 		Thread t2 = new Thread(p2);
 
