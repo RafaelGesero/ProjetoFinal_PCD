@@ -3,6 +3,7 @@ package environment;
 import game.Game;
 import game.Player;
 
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -11,7 +12,7 @@ public class Cell {
 	private Game game;
 	private Player player=null;
 	private Lock l = new ReentrantLock();
-
+	Condition condition = l.newCondition();
 
 	
 	public Cell(Coordinate position,Game g) {
@@ -37,11 +38,14 @@ public class Cell {
 		return player!=null;
 	}
 
-	public synchronized void setPlayerToNull(){
-
-
+	public void setPlayerToNull(){
+		l.lock();
+		try{
 			player = null;
-
+			condition.signal();
+		}finally {
+			l.unlock();
+		}
 	}
 
 
@@ -50,9 +54,17 @@ public class Cell {
 	}
 
 	// Should not be used like this in the initial state: cell might be occupied, must coordinate this operation
-	public  synchronized void setPlayer(Player player) throws InterruptedException {
+	public void setPlayer(Player player) throws InterruptedException {
+		l.lock();
+		try{
+			while(isOcupied()){
+				condition.await();
+			}
 			this.player = player;
 			player.returnPos(this);
+		}finally {
+			l.unlock();
+		}
 
 
 	}

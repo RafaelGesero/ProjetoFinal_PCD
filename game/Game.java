@@ -64,10 +64,10 @@ public class Game extends Observable {
 	}
 
 	public Cell getRandomCell() {
-
+		Cell c1 = getCell(new Coordinate( 2,2 ));
 
 		Cell newCell=getCell(new Coordinate((int)(Math.random()*Game.DIMX),(int)(Math.random()*Game.DIMY)));
-		return newCell;
+		return c1;
 
 	}
 }

@@ -16,8 +16,8 @@ public abstract class Player implements Runnable{
 
 	private Cell currentCell;
 
-	private final byte currentStrength;
-	protected byte originalStrength;
+	private byte currentStrength;
+	protected final  byte originalStrength;
 
 
 
@@ -71,14 +71,13 @@ public abstract class Player implements Runnable{
 		return currentStrength;
 	}
 
+	public void setCurrentStrength(byte currentStrength){
+		this.currentStrength = currentStrength;
+	}
+
 
 	public int getIdentification() {
 		return id;
-	}
-
-	public  byte inicialStrenght (){
-
-		return (byte) ((Math.random() * game.MAX_INITIAL_STRENGTH) + 1);
 	}
 
 	public byte sumStrenght(Player losePlayer){
@@ -100,7 +99,9 @@ public abstract class Player implements Runnable{
 		game.notifyChange();
 	}
 
-
+	private byte inicialStrenght (){
+		return (byte) ((Math.random() * game.MAX_INITIAL_STRENGTH) + 1);
+	}
 
 
 

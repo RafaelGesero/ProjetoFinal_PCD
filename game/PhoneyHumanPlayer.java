@@ -46,65 +46,47 @@ public class PhoneyHumanPlayer extends Player  {
 		}
 		return null;
 	}
+	//alterei algumas coisa, a função sumStrenght so faz a soma dps tens de colocar esse cvalor
+	// como currentStrenght, mas isso ja fiz, falta so fazer o random quando eelas sao iguais
 	public void fight(Player p){
-		//System.out.println(p.getCurrentStrength());
-		//System.out.println("--------");
-		//System.out.println(getCurrentStrength());
-
 		if(p.getCurrentStrength() > getCurrentStrength()){
-			//tu estas a colocar o força de um no outro, tens de somar as duas e eleminar o masi fraco, eu fiz a função que soma o svalores na classe player
-		System.out.println("entrei no maior");
-			p.sumStrenght(this);
+			byte newStrenght = p.sumStrenght(this);
+			p.setCurrentStrength(newStrenght);
 			getCurrentCell().setPlayerToNull();
-			//System.out.println("o player morreu " + this.getIdentification() + this);
 		} else if(p.getCurrentStrength() < getCurrentStrength()){
-			System.out.println("deste lado");
-			this.sumStrenght(p);
+			byte newStrenght = sumStrenght(p);
+			setCurrentStrength(newStrenght);
 			p.getCurrentCell().setPlayerToNull();
-			System.out.println("o player morreu deste lado " + this.getIdentification() + this);
 		} else {
-
+		}
 
 
 		}
 
-
-
-		public void removeRandom(Player p){
-			List<Player> list = new ArrayList<>();
-			list.add(p);
-			list.add(this);
-
-
-
-
-
-
-			}
-
-		}
-
-
-
+		//nao precisas de fazer assim, ve como fizemos o random das direções, deve ser mais facil
+	public void removeRandom(Player p){
+		List<Player> list = new ArrayList<>();
+		list.add(p);
+		list.add(this);
 
 	}
 
-
 	public  void  move() throws InterruptedException {
-		Direction goTo = moveTo();
-		Coordinate currentCor = getCurrentCell().getPosition();
-		Coordinate newCoor = currentCor.translate(goTo.getVector());
-
-		Cell c1 = game.getCell(newCoor);
-
-		if(c1.isOcupied()){
-			System.out.print("estou no fight");
-			fight(c1.getPlayer());
-			System.out.println("lutei");
-		}
-
 		if(countMove == 1){
-			//o if que tu fazes no final esta mal, o que tu esta a fazer é mover o player e dps é que vais ver se esta ocupado, tens de fazer esta confirmação antes do movimento
+			Direction goTo = moveTo();
+			Coordinate currentCor = getCurrentCell().getPosition();
+			Coordinate newCoor = currentCor.translate(goTo.getVector());
+			System.out.println(newCoor);
+			//esta cell c1 esta com alguns probelmas, se a newCoor estiver fora do tabuleiro
+			// ele cria a c1 com essas cordenadas mas como nao é uma cordenada dentro do tabuleio
+			// ela dá erro, ainda tou a ver se descubro, se quiseres fazer teste do fight fas no
+			// centro do tabuleiro ou asssim, para nao datr probelmas
+			Cell c1 = game.getCell(newCoor);
+
+			if(c1.isOcupied()){
+				fight(c1.getPlayer());
+				newCoor = new Coordinate(game.DIMX + 1, game.DIMY +1);
+			}
 			if(!(newCoor.x < 0 || newCoor.y < 0 || newCoor.x >= game.DIMX ||newCoor.y >= game.DIMY)){
 				getCurrentCell().setPlayerToNull();
 				try {
@@ -117,7 +99,6 @@ public class PhoneyHumanPlayer extends Player  {
 		}else{
 			countMove--;
 		}
-		//nao funciona, ver o com que esta a cima, quando invocas a função fight(this) esta a fazer com que o player p1 lute com ele mesmo, antes do mov tens de ver a se a ceel ja esta acupada e se estiver vais buscar esse player e fazes fight("esse player")
 		}
 
 
