@@ -13,6 +13,9 @@ import java.util.List;
  * @author luismota
  *
  */
+
+
+
 public class PhoneyHumanPlayer extends Player  {
 
 	private int countMove;
@@ -45,69 +48,62 @@ public class PhoneyHumanPlayer extends Player  {
 	}
 	//alterei algumas coisa, a função sumStrenght so faz a soma dps tens de colocar esse cvalor
 	// como currentStrenght, mas isso ja fiz, falta so fazer o random quando eelas sao iguais
-	public void fight(Player p){
-		if(p.currentStrength > currentStrength){
+	public void fight(Player p) {
+		if (p.getCurrentStrength() > getCurrentStrength()) {
 			byte newStrenght = p.sumStrenght(this);
-			p.currentStrength = newStrenght;
+			p.setCurrentStrength(newStrenght);
 			getCurrentCell().setPlayerToNull();
-		} else if(p.currentStrength < currentStrength){
+		} else if (p.getCurrentStrength() < getCurrentStrength()) {
 			byte newStrenght = sumStrenght(p);
-			currentStrength = newStrenght;
+			setCurrentStrength(newStrenght);
 			p.getCurrentCell().setPlayerToNull();
 		} else {
-			 byte newStrenght = p.sumStrenght(this);
-			Player[] names = new Player[]{this, p};
-			Player name = names[(int)(Math.random() * (double)names.length)];
+
+			byte newStrenght = p.sumStrenght(this);
+
+			Player[] names = {this, p};
+			Player name = names[(int) (Math.random() * (double) names.length)];
+
 			if (p.getIdentification() == name.getIdentification()) {
 				p.setCurrentStrength(newStrenght);
-				this.getCurrentCell().setPlayerToNull();
-				System.out.println("entrei deste lado 111");
+				getCurrentCell().setPlayerToNull();
 			} else if (this.getIdentification() == name.getIdentification()) {
-				this.setCurrentStrength(newStrenght);
+				setCurrentStrength(newStrenght);
 				p.getCurrentCell().setPlayerToNull();
-				System.out.println("entrei deste lado 2323");
 			}
 		}
-		}
 
-		//nao precisas de fazer assim, ve como fizemos o random das direções, deve ser mais facil
-	public void removeRandom(Player p){
-		List<Player> list = new ArrayList<>();
-		list.add(p);
-		list.add(this);
 
 	}
 
+		//nao precisas de fazer assim, ve como fizemos o random das direções, deve ser mais facil
+
+
 	public  void  move() throws InterruptedException {
 		if(countMove == 1){
-			if(estadoAtual.getEstadoAtual() == 1){
-				Direction goTo = moveTo();
-				Coordinate currentCor = getCurrentCell().getPosition();
-				Coordinate newCoor = currentCor.translate(goTo.getVector());
-				System.out.println(newCoor);
-				//esta cell c1 esta com alguns probelmas, se a newCoor estiver fora do tabuleiro
-				// ele cria a c1 com essas cordenadas mas como nao é uma cordenada dentro do tabuleio
-				// ela dá erro, ainda tou a ver se descubro, se quiseres fazer teste do fight fas no
-				// centro do tabuleiro ou asssim, para nao datr probelmas
-				Cell c1 = game.getCell(newCoor);
+			Direction goTo = moveTo();
+			Coordinate currentCor = getCurrentCell().getPosition();
+			Coordinate newCoor = currentCor.translate(goTo.getVector());
+			System.out.println(newCoor);
+			//esta cell c1 esta com alguns probelmas, se a newCoor estiver fora do tabuleiro
+			// ele cria a c1 com essas cordenadas mas como nao é uma cordenada dentro do tabuleio
+			// ela dá erro, ainda tou a ver se descubro, se quiseres fazer teste do fight fas no
+			// centro do tabuleiro ou asssim, para nao datr probelmas
+			Cell c1 = game.getCell(newCoor);
 
-				if(c1.isOcupied()){
-					fight(c1.getPlayer());
-					newCoor = new Coordinate(game.DIMX + 1, game.DIMY +1);
-				}
-				if(!(newCoor.x < 0 || newCoor.y < 0 || newCoor.x >= game.DIMX ||newCoor.y >= game.DIMY)){
-					getCurrentCell().setPlayerToNull();
-					try {
-						game.getCell(newCoor).setPlayer(this);
-						estadoAtual = Estado.VIVO;
-					} catch (InterruptedException e) {
-						throw new RuntimeException(e);
-					}
-				}
-				countMove = originalStrength;
-			}else{
-
+			if(c1.isOcupied()){
+				fight(c1.getPlayer());
+				newCoor = new Coordinate(game.DIMX + 1, game.DIMY +1);
 			}
+			if(!(newCoor.x < 0 || newCoor.y < 0 || newCoor.x >= game.DIMX ||newCoor.y >= game.DIMY)){
+				getCurrentCell().setPlayerToNull();
+				try {
+					game.getCell(newCoor).setPlayer(this);
+				} catch (InterruptedException e) {
+					throw new RuntimeException(e);
+				}
+			}
+			countMove = originalStrength;
 		}else{
 			countMove--;
 		}
