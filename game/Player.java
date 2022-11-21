@@ -10,15 +10,11 @@ import environment.Cell;
  */
 public abstract class Player implements Runnable{
 
-
 	protected  Game game;
 	private final int id;
-
 	private Cell currentCell;
-
 	protected byte currentStrength;
 	protected final  byte originalStrength;
-
 	protected Estado estadoAtual;
 
 	// TODO: get player position from data in game
@@ -83,7 +79,7 @@ public abstract class Player implements Runnable{
 		return id;
 	}
 
-	public byte sumStrenght(Player losePlayer){
+	public byte sumStrength(Player losePlayer){
 		byte loseStrPlayer = losePlayer.getCurrentStrength();
 		return (byte) (currentStrength + loseStrPlayer);
 	}

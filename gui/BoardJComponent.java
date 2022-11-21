@@ -57,7 +57,7 @@ public class BoardJComponent extends JComponent implements KeyListener {
 				Player player = game.getCell(p).getPlayer();
 				if(player!=null) {
 					// Fill yellow if there is a dead player
-					if(player.getCurrentStrength()==0) {
+					if(player.getEstadoAtual() == 2) {
 						g.setColor(Color.YELLOW);
 						g.fillRect((int)(p.x* cellWidth), 
 								(int)(p.y * cellHeight),
@@ -68,7 +68,7 @@ public class BoardJComponent extends JComponent implements KeyListener {
 						continue;
 					}
 					// Fill green if it is a human player
-					if(player.isHumanPlayer()) {
+					if(player.isHumanPlayer() && (player.getEstadoAtual() == 1 || player.getEstadoAtual() == 3)) {
 						g.setColor(Color.GREEN);
 						g.fillRect((int)(p.x* cellWidth), 
 								(int)(p.y * cellHeight),
@@ -76,13 +76,20 @@ public class BoardJComponent extends JComponent implements KeyListener {
 						// Custom icon?
 						g.drawImage(humanPlayerImage, (int)(p.x * cellWidth), (int)(p.y*cellHeight), 
 								(int)(cellWidth),(int)(cellHeight), null);
-					}else{
+					}else if (!player.isHumanPlayer() && (player.getEstadoAtual() == 1 || player.getEstadoAtual() == 3)){
 						g.setColor(Color.RED);
 						g.fillRect((int)(p.x* cellWidth),
 								(int)(p.y * cellHeight),
 								(int)(cellWidth),(int)(cellHeight));
 						g.drawImage(null, (int)(p.x * cellWidth), (int)(p.y*cellHeight),
 								(int)(cellWidth),(int)(cellHeight), null);
+					}
+
+					if(player.getEstadoAtual() == 4){
+						String s = "X";
+						g.drawString(s,
+								(int) ((p.x + .2) * cellWidth),
+								(int) ((p.y + .9) * cellHeight));
 					}
 
 

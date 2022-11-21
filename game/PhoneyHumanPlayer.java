@@ -1,12 +1,8 @@
 package game;
 
-import com.sun.source.tree.NewClassTree;
 import environment.Cell;
 import environment.Coordinate;
 import environment.Direction;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Class to demonstrate a player being added to the game.
@@ -50,34 +46,35 @@ public class PhoneyHumanPlayer extends Player  {
 	// como currentStrenght, mas isso ja fiz, falta so fazer o random quando eelas sao iguais
 	public void fight(Player p) {
 		if (p.getCurrentStrength() > getCurrentStrength()) {
-			byte newStrenght = p.sumStrenght(this);
-			p.setCurrentStrength(newStrenght);
+			byte newStrength = p.sumStrength(this);
+			p.setCurrentStrength(newStrength);
 			getCurrentCell().setPlayerToNull();
+			estadoAtual = Estado.MORTO;
 		} else if (p.getCurrentStrength() < getCurrentStrength()) {
-			byte newStrenght = sumStrenght(p);
-			setCurrentStrength(newStrenght);
+			byte newStrength = sumStrength(p);
+			setCurrentStrength(newStrength);
 			p.getCurrentCell().setPlayerToNull();
+			p.estadoAtual = Estado.MORTO;
 		} else {
 
-			byte newStrenght = p.sumStrenght(this);
+			byte newStrength = p.sumStrength(this);
 
 			Player[] names = {this, p};
 			Player name = names[(int) (Math.random() * (double) names.length)];
 
 			if (p.getIdentification() == name.getIdentification()) {
-				p.setCurrentStrength(newStrenght);
+				p.setCurrentStrength(newStrength);
 				getCurrentCell().setPlayerToNull();
-			} else if (this.getIdentification() == name.getIdentification()) {
-				setCurrentStrength(newStrenght);
+				estadoAtual = Estado.MORTO;
+			} else{
+				setCurrentStrength(newStrength);
 				p.getCurrentCell().setPlayerToNull();
+				p.estadoAtual = Estado.MORTO;
 			}
 		}
 
 
 	}
-
-		//nao precisas de fazer assim, ve como fizemos o random das direções, deve ser mais facil
-
 
 	public  void  move() throws InterruptedException {
 		if(countMove == 1){
@@ -113,7 +110,7 @@ public class PhoneyHumanPlayer extends Player  {
 	@Override
 	public void run() {
 		addPlayerToGame();
-		while(true){
+		while(estadoAtual == Estado.VIVO || estadoAtual == Estado.ESPERA){
 			try {
 				Thread.sleep(game.REFRESH_INTERVAL);
 			} catch (InterruptedException e) {
