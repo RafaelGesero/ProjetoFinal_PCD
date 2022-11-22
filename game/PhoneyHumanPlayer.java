@@ -44,25 +44,27 @@ public class PhoneyHumanPlayer extends Player  {
 	}
 
 	public void fight(Player p) {
-		if (p.getCurrentStrength() > getCurrentStrength()) {
-			byte newStrength = p.sumStrength(this);
-			p.setCurrentStrength(newStrength);
-			estadoAtual = Estado.MORTO;
-		} else if (p.getCurrentStrength() < getCurrentStrength()) {
-			byte newStrength = sumStrength(p);
-			setCurrentStrength(newStrength);
-			p.estadoAtual = Estado.MORTO;
-		} else {
-			byte newStrength = p.sumStrength(this);
-			Player[] names = {this, p};
-			Player name = names[(int) (Math.random() * (double) names.length)];
-			if (p.getIdentification() == name.getIdentification()) {
+		if(p.getEstadoAtual() == 1){
+			if (p.getCurrentStrength() > getCurrentStrength()) {
+				byte newStrength = p.sumStrength(this);
 				p.setCurrentStrength(newStrength);
 				estadoAtual = Estado.MORTO;
-			} else{
+			} else if (p.getCurrentStrength() < getCurrentStrength()) {
+				byte newStrength = sumStrength(p);
 				setCurrentStrength(newStrength);
 				p.estadoAtual = Estado.MORTO;
-			}
+			} else {
+				byte newStrength = p.sumStrength(this);
+				Player[] names = {this, p};
+				Player name = names[(int) (Math.random() * (double) names.length)];
+				if (p.getIdentification() == name.getIdentification()) {
+					p.setCurrentStrength(newStrength);
+					estadoAtual = Estado.MORTO;
+				} else{
+					setCurrentStrength(newStrength);
+					p.estadoAtual = Estado.MORTO;
+				}
+		}
 		}
 
 
@@ -76,7 +78,6 @@ public class PhoneyHumanPlayer extends Player  {
 			if(!(newCoor.x < 0 || newCoor.y < 0 || newCoor.x >= game.DIMX ||newCoor.y >= game.DIMY)){
 
 				if(game.getCell(newCoor).isOcupied()){
-					System.out.println("vai lutar");
 					fight(game.getCell(newCoor).getPlayer());
 					return;
 				}
