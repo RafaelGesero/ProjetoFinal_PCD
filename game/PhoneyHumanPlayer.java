@@ -44,9 +44,6 @@ public class PhoneyHumanPlayer extends Player  {
 	}
 
 	public void fight(Player p) {
-		System.out.println(getIdentification() + " " + getCurrentStrength());
-		System.out.println("--------------------");
-		System.out.println(p.getIdentification() + " " + p.getCurrentStrength());
 		if (p.getCurrentStrength() > getCurrentStrength()) {
 			byte newStrength = p.sumStrength(this);
 			p.setCurrentStrength(newStrength);
