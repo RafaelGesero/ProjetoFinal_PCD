@@ -50,12 +50,10 @@ public class PhoneyHumanPlayer extends Player  {
 		if (p.getCurrentStrength() > getCurrentStrength()) {
 			byte newStrength = p.sumStrength(this);
 			p.setCurrentStrength(newStrength);
-			getCurrentCell().setPlayerToNull();
 			estadoAtual = Estado.MORTO;
 		} else if (p.getCurrentStrength() < getCurrentStrength()) {
 			byte newStrength = sumStrength(p);
 			setCurrentStrength(newStrength);
-			p.getCurrentCell().setPlayerToNull();
 			p.estadoAtual = Estado.MORTO;
 		} else {
 			byte newStrength = p.sumStrength(this);
@@ -63,11 +61,9 @@ public class PhoneyHumanPlayer extends Player  {
 			Player name = names[(int) (Math.random() * (double) names.length)];
 			if (p.getIdentification() == name.getIdentification()) {
 				p.setCurrentStrength(newStrength);
-				getCurrentCell().setPlayerToNull();
 				estadoAtual = Estado.MORTO;
 			} else{
 				setCurrentStrength(newStrength);
-				p.getCurrentCell().setPlayerToNull();
 				p.estadoAtual = Estado.MORTO;
 			}
 		}
