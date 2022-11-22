@@ -76,7 +76,7 @@ public class PhoneyHumanPlayer extends Player  {
 	}
 
 	public  void  move() throws InterruptedException {
-		if(countMove == 1){
+		if(countMove == 1 || estadoAtual == Estado.VIVO){
 			Direction goTo = moveTo();
 			Coordinate currentCor = getCurrentCell().getPosition();
 			Coordinate newCoor = currentCor.translate(goTo.getVector());
@@ -105,14 +105,15 @@ public class PhoneyHumanPlayer extends Player  {
 	@Override
 	public void run() {
 		addPlayerToGame();
+		try {
+			Thread.sleep(game.MAX_WAITING_TIME_FOR_MOVE);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
 		while(estadoAtual == Estado.VIVO || estadoAtual == Estado.ESPERA){
 			try {
-				Thread.sleep(game.REFRESH_INTERVAL);
-			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
-			}
-			try {
 				move();
+				Thread.sleep(game.REFRESH_INTERVAL);
 			} catch (InterruptedException e) {
 				throw new RuntimeException(e);
 			}
