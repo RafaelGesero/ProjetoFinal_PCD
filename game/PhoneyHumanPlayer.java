@@ -43,8 +43,8 @@ public class PhoneyHumanPlayer extends Player  {
 		return null;
 	}
 
-	public void fight(Player p) {
-		if(p.getEstadoAtual() == 1){
+	public void fight(Player p) throws InterruptedException {
+		if(p.getEstadoAtual() == 1 || p.getEstadoAtual() == 3){
 			if (p.getCurrentStrength() > getCurrentStrength()) {
 				byte newStrength = p.sumStrength(this);
 				p.setCurrentStrength(newStrength);
@@ -64,24 +64,22 @@ public class PhoneyHumanPlayer extends Player  {
 					setCurrentStrength(newStrength);
 					p.estadoAtual = Estado.MORTO;
 				}
+			}
+		}else {
+			Thread.sleep(game.MAX_WAITING_TIME_FOR_MOVE);
 		}
-		}
-
-
 	}
 
 	public  void  move() throws InterruptedException {
-		if(countMove == 1 || estadoAtual == Estado.VIVO){
+		if(countMove == 1 && estadoAtual == Estado.VIVO){
 			Direction goTo = moveTo();
 			Coordinate currentCor = getCurrentCell().getPosition();
 			Coordinate newCoor = currentCor.translate(goTo.getVector());
 			if(!(newCoor.x < 0 || newCoor.y < 0 || newCoor.x >= game.DIMX ||newCoor.y >= game.DIMY)){
-
 				if(game.getCell(newCoor).isOcupied()){
 					fight(game.getCell(newCoor).getPlayer());
 					return;
 				}
-
 				getCurrentCell().setPlayerToNull();
 				try {
 					game.getCell(newCoor).setPlayer(this);
