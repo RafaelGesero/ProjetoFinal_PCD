@@ -1,5 +1,6 @@
 package environment;
 
+import game.Estado;
 import game.Game;
 import game.Player;
 
@@ -58,10 +59,12 @@ public class Cell {
 		l.lock();
 		try{
 			while(isOcupied()){
+				player.setEstadoAtual(Estado.ESPERA);
 				condition.await();
 			}
 			this.player = player;
 			player.returnPos(this);
+			player.setEstadoAtual(Estado.VIVO);
 		}finally {
 			l.unlock();
 		}

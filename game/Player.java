@@ -70,6 +70,10 @@ public abstract class Player implements Runnable{
 		return estadoAtual.getEstadoAtual();
 	}
 
+	public void setEstadoAtual(Estado estadoAtual){
+		this.estadoAtual = estadoAtual;
+	}
+
 	public void setCurrentStrength(byte currentStrength){
 		this.currentStrength = currentStrength;
 	}

@@ -45,17 +45,11 @@ public class GameGuiMain implements Observer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-
-		Player p1 = new PhoneyHumanPlayer(1, game);
-		Player p2 = new PhoneyHumanPlayer(2, game);
-
-		Thread t1 = new Thread(p1);
-		Thread t2 = new Thread(p2);
-
-		t1.start();
-		t2.start();
-
+		for(int i = 0 ; i < 20 ; i++){
+			Player p = new PhoneyHumanPlayer(i, game);
+			Thread t = new Thread(p);
+			t.start();
+		}
 	}
 
 	@Override

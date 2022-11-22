@@ -42,9 +42,11 @@ public class PhoneyHumanPlayer extends Player  {
 		}
 		return null;
 	}
-	//alterei algumas coisa, a função sumStrenght so faz a soma dps tens de colocar esse cvalor
-	// como currentStrenght, mas isso ja fiz, falta so fazer o random quando eelas sao iguais
+
 	public void fight(Player p) {
+		System.out.println(getIdentification() + " " + getCurrentStrength());
+		System.out.println("--------------------");
+		System.out.println(p.getIdentification() + " " + p.getCurrentStrength());
 		if (p.getCurrentStrength() > getCurrentStrength()) {
 			byte newStrength = p.sumStrength(this);
 			p.setCurrentStrength(newStrength);
@@ -56,12 +58,9 @@ public class PhoneyHumanPlayer extends Player  {
 			p.getCurrentCell().setPlayerToNull();
 			p.estadoAtual = Estado.MORTO;
 		} else {
-
 			byte newStrength = p.sumStrength(this);
-
 			Player[] names = {this, p};
 			Player name = names[(int) (Math.random() * (double) names.length)];
-
 			if (p.getIdentification() == name.getIdentification()) {
 				p.setCurrentStrength(newStrength);
 				getCurrentCell().setPlayerToNull();
@@ -81,18 +80,14 @@ public class PhoneyHumanPlayer extends Player  {
 			Direction goTo = moveTo();
 			Coordinate currentCor = getCurrentCell().getPosition();
 			Coordinate newCoor = currentCor.translate(goTo.getVector());
-			System.out.println(newCoor);
-			//esta cell c1 esta com alguns probelmas, se a newCoor estiver fora do tabuleiro
-			// ele cria a c1 com essas cordenadas mas como nao é uma cordenada dentro do tabuleio
-			// ela dá erro, ainda tou a ver se descubro, se quiseres fazer teste do fight fas no
-			// centro do tabuleiro ou asssim, para nao datr probelmas
-			Cell c1 = game.getCell(newCoor);
-
-			if(c1.isOcupied()){
-				fight(c1.getPlayer());
-				newCoor = new Coordinate(game.DIMX + 1, game.DIMY +1);
-			}
 			if(!(newCoor.x < 0 || newCoor.y < 0 || newCoor.x >= game.DIMX ||newCoor.y >= game.DIMY)){
+
+				if(game.getCell(newCoor).isOcupied()){
+					System.out.println("vai lutar");
+					fight(game.getCell(newCoor).getPlayer());
+					return;
+				}
+
 				getCurrentCell().setPlayerToNull();
 				try {
 					game.getCell(newCoor).setPlayer(this);
