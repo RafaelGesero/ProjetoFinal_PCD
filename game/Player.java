@@ -85,6 +85,13 @@ public abstract class Player implements Runnable{
 
 	public byte sumStrength(Player losePlayer){
 		byte loseStrPlayer = losePlayer.getCurrentStrength();
+
+		if((currentStrength + loseStrPlayer) > 10){
+			estadoAtual = Estado.TERMINAL;
+			System.out.println("abc deste lado terminal");
+			return (byte) 10;
+		}
+
 		return (byte) (currentStrength + loseStrPlayer);
 	}
 
