@@ -2,27 +2,44 @@ package gui;
 
 import java.util.Observable;
 import java.util.Observer;
+import java.util.concurrent.CyclicBarrier;
 
 import environment.Cell;
 import environment.Coordinate;
+//import game.Barreira;
+import game.BarreiraManual;
 import game.Game;
 import game.PhoneyHumanPlayer;
 import game.Player;
 
 import javax.swing.JFrame;
 
+
+
 public class GameGuiMain implements Observer {
 	private JFrame frame = new JFrame("pcd.io");
 	private BoardJComponent boardGui;
 	private Game game;
+	private static int lugar=0;
+
+	static final private int NUM_PLAYERS = 6;
+	static final private int DIST = 20;
+
+
+
 
 	public GameGuiMain() {
 		super();
-		game = new Game();
+		game = new Game(new BarreiraManual());
 		game.addObserver(this);
 
 		buildGui();
 
+	}
+
+	public static int cheguei() {
+		lugar++;
+		return lugar;
 	}
 
 	private void buildGui() {
@@ -45,7 +62,7 @@ public class GameGuiMain implements Observer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		for(int i = 0 ; i < 40 ; i++){
+		for(int i = 0 ; i < 30 ; i++){
 			Player p = new PhoneyHumanPlayer(i, game);
 			Thread t = new Thread(p);
 			t.start();
@@ -60,6 +77,21 @@ public class GameGuiMain implements Observer {
 	public static void main(String[] args) {
 		GameGuiMain game = new GameGuiMain();
 		game.init();
+
+		/*Barreira [] tds = new Barreira[NUM_PLAYERS];
+		CyclicBarrier barreira = new CyclicBarrier(NUM_PLAYERS, new Runnable() {
+			@Override
+			public void run() {
+
+
+			}
+		});
+
+		for(int i = 0; i < NUM_PLAYERS; i++) {
+			tds[i] = new Barreira(DIST, barreira, game);
+			tds[i].start();
+		}*/
+
 	}
 
 }

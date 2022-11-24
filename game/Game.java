@@ -22,17 +22,22 @@ public class Game extends Observable {
 	public static final long MAX_WAITING_TIME_FOR_MOVE = 2000;
 	public static final long INITIAL_WAITING_TIME = 10000;
 
+	public static final double MAX_FINAL_STRENGTH = 10;
+
+	private BarreiraManual barreira;
+
 
 
 
 	protected Cell[][] board;
 
-	public Game() {
+	public Game(BarreiraManual barreira) {
 		board = new Cell[Game.DIMX][Game.DIMY];
 	
 		for (int x = 0; x < Game.DIMX; x++) 
 			for (int y = 0; y < Game.DIMY; y++) 
 				board[x][y] = new Cell(new Coordinate(x, y),this);
+		this.barreira=barreira;
 
 
 	}
@@ -69,4 +74,13 @@ public class Game extends Observable {
 		return newCell;
 
 	}
+
+
+
+
+
+
+
+
+
 }
