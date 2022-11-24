@@ -14,6 +14,7 @@ import game.Player;
 
 import javax.swing.JFrame;
 
+import static java.lang.System.exit;
 
 
 public class GameGuiMain implements Observer {
@@ -30,7 +31,7 @@ public class GameGuiMain implements Observer {
 
 	public GameGuiMain() {
 		super();
-		game = new Game(new BarreiraManual());
+		game = new Game();
 		game.addObserver(this);
 
 		buildGui();
@@ -54,6 +55,13 @@ public class GameGuiMain implements Observer {
 
 	public void init()  {
 		frame.setVisible(true);
+		CyclicBarrier barreira = new CyclicBarrier(3, new Runnable() {
+			@Override
+			public void run() {
+				System.out.println("o jogo terminou");
+				System.exit(0);
+			}
+		});
 
 		// Demo players, should be deleted
 		try {
@@ -62,11 +70,12 @@ public class GameGuiMain implements Observer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		for(int i = 0 ; i < 30 ; i++){
-			Player p = new PhoneyHumanPlayer(i, game);
+		for(int i = 0 ; i < 100 ; i++){
+			Player p = new PhoneyHumanPlayer(i, game, barreira);
 			Thread t = new Thread(p);
 			t.start();
 		}
+
 	}
 
 	@Override

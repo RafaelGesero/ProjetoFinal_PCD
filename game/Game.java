@@ -24,20 +24,14 @@ public class Game extends Observable {
 
 	public static final double MAX_FINAL_STRENGTH = 10;
 
-	private BarreiraManual barreira;
-
-
-
-
 	protected Cell[][] board;
 
-	public Game(BarreiraManual barreira) {
+	public Game() {
 		board = new Cell[Game.DIMX][Game.DIMY];
 	
 		for (int x = 0; x < Game.DIMX; x++) 
 			for (int y = 0; y < Game.DIMY; y++) 
 				board[x][y] = new Cell(new Coordinate(x, y),this);
-		this.barreira=barreira;
 
 
 	}

@@ -2,13 +2,12 @@ package game;
 
 public class BarreiraManual extends Thread {
 
-    private int count=3;
-     private byte energia;
-
+    private int count;
     private int lugar=0;
 
 
-    public BarreiraManual () {
+    public BarreiraManual (int count) {
+        this.count = count;
     }
 
     public int cheguei(){
@@ -18,12 +17,12 @@ public class BarreiraManual extends Thread {
 
     public synchronized void await ()
             throws InterruptedException {
-        while (energia<10)
+        while (count > 0)
             wait();
     }
     public synchronized void countDown (){
         count --;
         if(count ==0)
-            notifyAll();
+            System.out.println("--------------------CHEGUEI AQUI-----------------------------");
     }
 }

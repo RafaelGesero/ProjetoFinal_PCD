@@ -4,6 +4,9 @@ import environment.Cell;
 import environment.Coordinate;
 import environment.Direction;
 
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
+
 /**
  * Class to demonstrate a player being added to the game.
  * @author luismota
@@ -15,10 +18,12 @@ import environment.Direction;
 public class PhoneyHumanPlayer extends Player  {
 
 	private int countMove;
+	private CyclicBarrier barreira;
 
-	public PhoneyHumanPlayer(int id, Game game) {
+	public PhoneyHumanPlayer(int id, Game game, CyclicBarrier barreira) {
 		super(id, game);
 		countMove = originalStrength;
+		this.barreira = barreira;
 
 	}
 
@@ -111,6 +116,19 @@ public class PhoneyHumanPlayer extends Player  {
 			}
 			game.notifyChange();
 		}
+		if(estadoAtual == Estado.TERMINAL){
+			try {
+				barreira.await();
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			} catch (BrokenBarrierException e) {
+				throw new RuntimeException(e);
+			}
+			System.out.println("terminei " + getIdentification());
+		}else{
+			System.out.println("morri " + getIdentification());
+		}
+
 
 	}
 }
