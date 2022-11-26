@@ -6,7 +6,7 @@ import java.util.concurrent.CyclicBarrier;
 
 import environment.Cell;
 import environment.Coordinate;
-//import game.Barreira;
+import game.Barreira;
 import game.BarreiraManual;
 import game.Game;
 import game.PhoneyHumanPlayer;
@@ -22,12 +22,6 @@ public class GameGuiMain implements Observer {
 	private BoardJComponent boardGui;
 	private Game game;
 	private static int lugar=0;
-
-	static final private int NUM_PLAYERS = 6;
-	static final private int DIST = 20;
-
-
-
 
 	public GameGuiMain() {
 		super();
@@ -55,13 +49,15 @@ public class GameGuiMain implements Observer {
 
 	public void init()  {
 		frame.setVisible(true);
-		CyclicBarrier barreira = new CyclicBarrier(3, new Runnable() {
+
+		//vasi criar a barreira aqui como na cyclic
+		BarreiraManual barreiraManual = new BarreiraManual();
+		/*CyclicBarrier barreira = new CyclicBarrier(20, new Runnable() {
 			@Override
 			public void run() {
-				System.out.println("o jogo terminou");
-				System.exit(0);
+
 			}
-		});
+		});*/
 
 		// Demo players, should be deleted
 		try {
@@ -71,7 +67,7 @@ public class GameGuiMain implements Observer {
 			e.printStackTrace();
 		}
 		for(int i = 0 ; i < 100 ; i++){
-			Player p = new PhoneyHumanPlayer(i, game, barreira);
+			Player p = new PhoneyHumanPlayer(i, game, barreiraManual);
 			Thread t = new Thread(p);
 			t.start();
 		}
@@ -86,21 +82,6 @@ public class GameGuiMain implements Observer {
 	public static void main(String[] args) {
 		GameGuiMain game = new GameGuiMain();
 		game.init();
-
-		/*Barreira [] tds = new Barreira[NUM_PLAYERS];
-		CyclicBarrier barreira = new CyclicBarrier(NUM_PLAYERS, new Runnable() {
-			@Override
-			public void run() {
-
-
-			}
-		});
-
-		for(int i = 0; i < NUM_PLAYERS; i++) {
-			tds[i] = new Barreira(DIST, barreira, game);
-			tds[i].start();
-		}*/
-
 	}
 
 }

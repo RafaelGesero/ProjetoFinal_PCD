@@ -59,7 +59,6 @@ public class Cell {
 		l.lock();
 		try{
 			while(isOcupied()){
-				player.setEstadoAtual(Estado.ESPERA);
 				condition.await();
 			}
 			this.player = player;

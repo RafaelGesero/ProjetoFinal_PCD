@@ -17,10 +17,10 @@ import java.util.concurrent.CyclicBarrier;
 public class PhoneyHumanPlayer extends Player  {
 
 	private int countMove;
-	private CyclicBarrier barreira;
+	private BarreiraManual barreira;
 	private static int lugar=0;
 
-	public PhoneyHumanPlayer(int id, Game game, CyclicBarrier barreira) {
+	public PhoneyHumanPlayer(int id, Game game, BarreiraManual barreira) {
 		super(id, game);
 		countMove = originalStrength;
 		this.barreira = barreira;
@@ -54,7 +54,7 @@ public class PhoneyHumanPlayer extends Player  {
 	}
 
 	public void fight(Player p) throws InterruptedException {
-		if(p.getEstadoAtual() == 1 || p.getEstadoAtual() == 3){
+		if(p.getEstadoAtual() == 1){
 			if (p.getCurrentStrength() > getCurrentStrength()) {
 				byte newStrength = p.sumStrength(this);
 				p.setCurrentStrength(newStrength);
@@ -112,7 +112,7 @@ public class PhoneyHumanPlayer extends Player  {
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		}
-		while(estadoAtual == Estado.VIVO || estadoAtual == Estado.ESPERA){
+		while (estadoAtual == Estado.VIVO) {
 			try {
 				move();
 				Thread.sleep(game.REFRESH_INTERVAL);
@@ -121,29 +121,23 @@ public class PhoneyHumanPlayer extends Player  {
 			}
 			game.notifyChange();
 		}
-		if(estadoAtual == Estado.TERMINAL){
+		if (estadoAtual == Estado.TERMINAL) {
 			try {
 
 			int lugar = cheguei();
-
-			System.out.println("chegou " + getIdentification());
 
 				//System.out.println(getIdentification() + " : " + lugar + "o lugar");
 				barreira.await();
 
 				//mal chega ao 3o fecha logo e nao chega aqui , salta logo p run do exit0
+
+				//pq ele fica á espera no await, é normal nao chegar aqui, vais ter de
+				// fazer isso na barreira(acho eu)
 				System.out.println(getIdentification() + " : " + lugar + "o lugar");
 
 			} catch (InterruptedException e) {
 				throw new RuntimeException(e);
-			} catch (BrokenBarrierException e) {
-				throw new RuntimeException(e);
 			}
-			System.out.println("terminei " + getIdentification());
-		}else{
-			System.out.println("morri " + getIdentification());
 		}
-
-
 	}
 }

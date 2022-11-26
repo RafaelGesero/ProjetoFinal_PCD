@@ -29,7 +29,6 @@ public abstract class Player implements Runnable{
 		this.game=game;
 		originalStrength = inicialStrenght();
 		currentStrength = originalStrength;
-		estadoAtual = Estado.ESPERA;
 	}
 
 	public abstract boolean isHumanPlayer();
@@ -86,11 +85,12 @@ public abstract class Player implements Runnable{
 	public byte sumStrength(Player losePlayer){
 		byte loseStrPlayer = losePlayer.getCurrentStrength();
 
-		if((currentStrength + loseStrPlayer) > 10){
+		if((currentStrength + loseStrPlayer) >= game.MAX_FINAL_STRENGTH){
 			estadoAtual = Estado.TERMINAL;
-			return (byte) 10;
-		}
-		return (byte) (currentStrength + loseStrPlayer);
+			return (byte) game.MAX_FINAL_STRENGTH;
+		}else
+			return (byte) (currentStrength + loseStrPlayer);
+
 	}
 
 	public void returnPos(Cell currentCell){
