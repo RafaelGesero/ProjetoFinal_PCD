@@ -1,6 +1,5 @@
 package game;
 
-import environment.Cell;
 import environment.Coordinate;
 import environment.Direction;
 
@@ -19,6 +18,7 @@ public class PhoneyHumanPlayer extends Player  {
 
 	private int countMove;
 	private CyclicBarrier barreira;
+	private static int lugar=0;
 
 	public PhoneyHumanPlayer(int id, Game game, CyclicBarrier barreira) {
 		super(id, game);
@@ -29,6 +29,11 @@ public class PhoneyHumanPlayer extends Player  {
 
 	public boolean isHumanPlayer() {
 		return false;
+	}
+
+	public static int cheguei() {
+		lugar++;
+		return lugar;
 	}
 
 	private Direction moveTo(){
@@ -118,7 +123,17 @@ public class PhoneyHumanPlayer extends Player  {
 		}
 		if(estadoAtual == Estado.TERMINAL){
 			try {
+
+			int lugar = cheguei();
+
+			System.out.println("chegou " + getIdentification());
+
+				//System.out.println(getIdentification() + " : " + lugar + "o lugar");
 				barreira.await();
+
+				//mal chega ao 3o fecha logo e nao chega aqui , salta logo p run do exit0
+				System.out.println(getIdentification() + " : " + lugar + "o lugar");
+
 			} catch (InterruptedException e) {
 				throw new RuntimeException(e);
 			} catch (BrokenBarrierException e) {
