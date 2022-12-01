@@ -3,9 +3,6 @@ package game;
 import environment.Coordinate;
 import environment.Direction;
 
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CyclicBarrier;
-
 /**
  * Class to demonstrate a player being added to the game.
  * @author luismota
