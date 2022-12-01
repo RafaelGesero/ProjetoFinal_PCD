@@ -17,10 +17,10 @@ import java.util.concurrent.CyclicBarrier;
 public class PhoneyHumanPlayer extends Player  {
 
 	private int countMove;
-	private BarreiraManual barreira;
+	private Barreira barreira;
 	private static int lugar=0;
 
-	public PhoneyHumanPlayer(int id, Game game, BarreiraManual barreira) {
+	public PhoneyHumanPlayer(int id, Game game, Barreira barreira) {
 		super(id, game);
 		countMove = originalStrength;
 		this.barreira = barreira;
@@ -122,22 +122,7 @@ public class PhoneyHumanPlayer extends Player  {
 			game.notifyChange();
 		}
 		if (estadoAtual == Estado.TERMINAL) {
-			try {
-
-			int lugar = cheguei();
-
-				//System.out.println(getIdentification() + " : " + lugar + "o lugar");
-				barreira.await();
-
-				//mal chega ao 3o fecha logo e nao chega aqui , salta logo p run do exit0
-
-				//pq ele fica á espera no await, é normal nao chegar aqui, vais ter de
-				// fazer isso na barreira(acho eu)
-				System.out.println(getIdentification() + " : " + lugar + "o lugar");
-
-			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
-			}
+			barreira.countDown(getIdentification());
 		}
 	}
 }

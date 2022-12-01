@@ -2,19 +2,13 @@ package gui;
 
 import java.util.Observable;
 import java.util.Observer;
-import java.util.concurrent.CyclicBarrier;
 
-import environment.Cell;
-import environment.Coordinate;
 import game.Barreira;
-import game.BarreiraManual;
 import game.Game;
 import game.PhoneyHumanPlayer;
 import game.Player;
 
 import javax.swing.JFrame;
-
-import static java.lang.System.exit;
 
 
 public class GameGuiMain implements Observer {
@@ -50,16 +44,9 @@ public class GameGuiMain implements Observer {
 	public void init()  {
 		frame.setVisible(true);
 
-		//vasi criar a barreira aqui como na cyclic
-		BarreiraManual barreiraManual = new BarreiraManual();
-		/*CyclicBarrier barreira = new CyclicBarrier(20, new Runnable() {
-			@Override
-			public void run() {
 
-			}
-		});*/
+		Barreira finalJogo = new Barreira(3);
 
-		// Demo players, should be deleted
 		try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
@@ -67,9 +54,14 @@ public class GameGuiMain implements Observer {
 			e.printStackTrace();
 		}
 		for(int i = 0 ; i < 100 ; i++){
-			Player p = new PhoneyHumanPlayer(i, game, barreiraManual);
+			Player p = new PhoneyHumanPlayer(i, game, finalJogo);
 			Thread t = new Thread(p);
 			t.start();
+		}
+		try {
+			finalJogo.await();
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
 		}
 
 	}
