@@ -2,6 +2,8 @@ package game;
 
 import environment.Cell;
 
+import java.util.concurrent.BrokenBarrierException;
+
 
 /**
  * Represents a player.
@@ -10,12 +12,13 @@ import environment.Cell;
  */
 public abstract class Player implements Runnable{
 
-	protected  Game game;
+	protected final Game game;
 	private final int id;
 	private Cell currentCell;
 	protected byte currentStrength;
-	protected final  byte originalStrength;
+
 	protected Estado estadoAtual;
+	protected Barreira barreira;
 
 	// TODO: get player position from data in game
 	public Cell getCurrentCell() {
@@ -23,12 +26,11 @@ public abstract class Player implements Runnable{
 	}
 
 
-	public Player(int id, Game game) {
+	public Player(int id, Game game, Barreira barreira) {
 		super();
 		this.id = id;
 		this.game=game;
-		originalStrength = inicialStrenght();
-		currentStrength = originalStrength;
+		this.barreira = barreira;
 	}
 
 	public abstract boolean isHumanPlayer();
@@ -90,7 +92,32 @@ public abstract class Player implements Runnable{
 			return (byte) game.MAX_FINAL_STRENGTH;
 		}else
 			return (byte) (currentStrength + loseStrPlayer);
-
+	}
+	public void fight(Player p) throws InterruptedException {
+		if(p.getEstadoAtual() == 1){
+			if (p.getCurrentStrength() > getCurrentStrength()) {
+				byte newStrength = p.sumStrength(this);
+				p.setCurrentStrength(newStrength);
+				estadoAtual = Estado.MORTO;
+			} else if (p.getCurrentStrength() < getCurrentStrength()) {
+				byte newStrength = sumStrength(p);
+				setCurrentStrength(newStrength);
+				p.estadoAtual = Estado.MORTO;
+			} else {
+				byte newStrength = p.sumStrength(this);
+				Player[] names = {this, p};
+				Player name = names[(int) (Math.random() * (double) names.length)];
+				if (p.getIdentification() == name.getIdentification()) {
+					p.setCurrentStrength(newStrength);
+					estadoAtual = Estado.MORTO;
+				} else{
+					setCurrentStrength(newStrength);
+					p.estadoAtual = Estado.MORTO;
+				}
+			}
+		}else {
+			Thread.sleep(game.MAX_WAITING_TIME_FOR_MOVE);
+		}
 	}
 
 	public void returnPos(Cell currentCell){
@@ -106,13 +133,6 @@ public abstract class Player implements Runnable{
 		}
 		game.notifyChange();
 	}
-
-	private byte inicialStrenght (){
-		return (byte) ((Math.random() * game.MAX_INITIAL_STRENGTH) + 1);
-	}
-
-
-
 }
 
 

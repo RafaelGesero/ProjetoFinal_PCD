@@ -14,13 +14,13 @@ import environment.Direction;
 public class PhoneyHumanPlayer extends Player  {
 
 	private int countMove;
-	private Barreira barreira;
-	private static int lugar=0;
+	private final byte originalStrength;
 
 	public PhoneyHumanPlayer(int id, Game game, Barreira barreira) {
-		super(id, game);
+		super(id, game, barreira);
+		originalStrength = inicialStrenght();
+		currentStrength = originalStrength;
 		countMove = originalStrength;
-		this.barreira = barreira;
 
 	}
 
@@ -28,15 +28,12 @@ public class PhoneyHumanPlayer extends Player  {
 		return false;
 	}
 
-	public static int cheguei() {
-		lugar++;
-		return lugar;
+	private byte inicialStrenght (){
+		return (byte) ((Math.random() * game.MAX_INITIAL_STRENGTH) + 1);
 	}
 
 	private Direction moveTo(){
-		int min = 1;
-		int max = 4;
-		int rand = (int) ((Math.random() * max) + min);
+		int rand = (int) ((Math.random() * 4) + 1);
 		switch (rand) {
 			case 1:
 				return Direction.UP;
@@ -48,33 +45,6 @@ public class PhoneyHumanPlayer extends Player  {
 				return Direction.RIGHT;
 		}
 		return null;
-	}
-
-	public void fight(Player p) throws InterruptedException {
-		if(p.getEstadoAtual() == 1){
-			if (p.getCurrentStrength() > getCurrentStrength()) {
-				byte newStrength = p.sumStrength(this);
-				p.setCurrentStrength(newStrength);
-				estadoAtual = Estado.MORTO;
-			} else if (p.getCurrentStrength() < getCurrentStrength()) {
-				byte newStrength = sumStrength(p);
-				setCurrentStrength(newStrength);
-				p.estadoAtual = Estado.MORTO;
-			} else {
-				byte newStrength = p.sumStrength(this);
-				Player[] names = {this, p};
-				Player name = names[(int) (Math.random() * (double) names.length)];
-				if (p.getIdentification() == name.getIdentification()) {
-					p.setCurrentStrength(newStrength);
-					estadoAtual = Estado.MORTO;
-				} else{
-					setCurrentStrength(newStrength);
-					p.estadoAtual = Estado.MORTO;
-				}
-			}
-		}else {
-			Thread.sleep(game.MAX_WAITING_TIME_FOR_MOVE);
-		}
 	}
 
 	public  void  move() throws InterruptedException {
@@ -118,8 +88,8 @@ public class PhoneyHumanPlayer extends Player  {
 			}
 			game.notifyChange();
 		}
-		if (estadoAtual == Estado.TERMINAL) {
+		if (estadoAtual == Estado.TERMINAL)
 			barreira.countDown(getIdentification());
-		}
+
 	}
 }

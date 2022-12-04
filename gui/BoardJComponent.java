@@ -44,12 +44,12 @@ public class BoardJComponent extends JComponent implements KeyListener {
 		double cellHeight=getHeight()/(double)Game.DIMY;
 		double cellWidth=getWidth()/(double)Game.DIMX;
 
-		for (int y = 1; y < Game.DIMY; y++) {
+		for (int y = 1; y < Game.DIMY; y++)
 			g.drawLine(0, (int)(y * cellHeight), getWidth(), (int)(y* cellHeight));
-		}
-		for (int x = 1; x < Game.DIMX; x++) {
+
+		for (int x = 1; x < Game.DIMX; x++)
 			g.drawLine( (int)(x * cellWidth),0, (int)(x* cellWidth), getHeight());
-		}
+
 		for (int x = 0; x < Game.DIMX; x++) 
 			for (int y = 0; y < Game.DIMY; y++) {
 				Coordinate p = new Coordinate(x, y);
@@ -57,7 +57,7 @@ public class BoardJComponent extends JComponent implements KeyListener {
 				Player player = game.getCell(p).getPlayer();
 				if(player!=null) {
 					if(player.getEstadoAtual() == 2) {
-						g.setColor(Color.YELLOW);
+						g.setColor(Color.BLACK);
 						g.fillRect((int) (p.x * cellWidth),
 								(int) (p.y * cellHeight),
 								(int) (cellWidth), (int) (cellHeight));
