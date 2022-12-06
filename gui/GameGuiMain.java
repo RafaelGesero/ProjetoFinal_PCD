@@ -8,7 +8,7 @@ import java.util.Observer;
 
 import game.*;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 
 public class GameGuiMain implements Observer {
@@ -28,6 +28,7 @@ public class GameGuiMain implements Observer {
 			throw new RuntimeException(e);
 		}
 		buildGui();
+		System.out.println("teste");
 
 	}
 
