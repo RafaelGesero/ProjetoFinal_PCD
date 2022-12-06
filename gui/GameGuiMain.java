@@ -1,8 +1,6 @@
 package gui;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Observable;
@@ -17,13 +15,18 @@ public class GameGuiMain implements Observer {
 	private JFrame frame = new JFrame("pcd.io");
 	private BoardJComponent boardGui;
 	private Game game;
-	private static int lugar=0;
+	public static final int PORTO = 8980;
+
 
 	public GameGuiMain() {
 		super();
 		game = new Game();
 		game.addObserver(this);
-
+		try {
+			startServing();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 		buildGui();
 
 	}
@@ -31,8 +34,6 @@ public class GameGuiMain implements Observer {
 	private void buildGui() {
 		boardGui = new BoardJComponent(game);
 		frame.add(boardGui);
-
-
 		frame.setSize(800,800);
 		frame.setLocation(500, 150);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -41,7 +42,7 @@ public class GameGuiMain implements Observer {
 	public void init()  {
 		frame.setVisible(true);
 		Barreira finalJogo = new Barreira(3);
-		HumanPlayer hp = new HumanPlayer(999, game, finalJogo, boardGui);
+		HumanPlayer hp = new HumanPlayer(999, game, finalJogo, boardGui, true);
 		Thread tp = new Thread(hp);
 		tp.start();
 
@@ -69,21 +70,52 @@ public class GameGuiMain implements Observer {
 		boardGui.repaint();
 	}
 
+	public void startServing() throws IOException{
+		ServerSocket ss = new ServerSocket(PORTO);
+		try {
+			System.out.println("espera de ligação");
+			while(true) {
+				Socket socket = ss.accept();
+				new GameServer(socket).start();
+			}
+		} finally {
+			ss.close();
+		}
+	}
+
 	public static void main(String[] args) throws IOException, ClassNotFoundException {
 		GameGuiMain game = new GameGuiMain();
-		/*ServerSocket ss = new ServerSocket(Game.PORTO);
-		System.out.println("espera por ligação");
-		Socket socket = ss.accept();
-		InputStream inputStream = socket.getInputStream();
-		ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
-		InformationToServer its =  (InformationToServer) objectInputStream.readObject();
-		System.out.println(its.getDirection() + " " + its.getCurrentStrength() + " " + its.getEstado() );
-		ss.close();
-		socket.close();*/
 		game.init();
-
-
-
 	}
 
 }
+
+class GameServer extends Thread {
+
+	private Socket socket;
+	private OutputStream out;
+	private InputStream in;
+
+	protected GameServer(Socket socket) {
+		this.socket = socket;
+	}
+
+	private void doConnections(Socket socket) throws IOException {
+		in = new ObjectInputStream(socket.getInputStream());
+		out = new ObjectOutputStream(socket.getOutputStream());
+	}
+
+	public void run() {
+		try {
+			try {
+				doConnections(socket);
+			} finally {
+				socket.close();
+			}
+		} catch (IOException e) {
+			System.out.println("Erro no run");
+		}
+	}
+
+}
+

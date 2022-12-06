@@ -2,6 +2,9 @@ package game;
 
 
 
+import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
@@ -23,7 +26,6 @@ public class Game extends Observable{
 	public static final long INITIAL_WAITING_TIME = 10000;
 
 	public static final double MAX_FINAL_STRENGTH = 10;
-	public static final int PORTO = 8980;
 
 	protected Cell[][] board;
 

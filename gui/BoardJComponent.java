@@ -31,7 +31,7 @@ public class BoardJComponent extends JComponent implements KeyListener {
 	private Image obstacleImage = new ImageIcon("obstacle.png").getImage();
 	private Image humanPlayerImage= new ImageIcon("abstract-user-flat.png").getImage();
 	private Direction lastPressedDirection=null;
-	
+
 	public BoardJComponent(Game game) {
 		this.game = game;
 		setFocusable(true);
@@ -106,18 +106,22 @@ public class BoardJComponent extends JComponent implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		switch(e.getKeyCode()){
-		case KeyEvent.VK_LEFT :
+		case KeyEvent.VK_LEFT:
+			case KeyEvent.VK_A:
 			lastPressedDirection=environment.Direction.LEFT;
 			break;
 		case KeyEvent.VK_RIGHT:
-			lastPressedDirection=environment.Direction.RIGHT;
-			break;
+			case KeyEvent.VK_D:
+				lastPressedDirection=environment.Direction.RIGHT;
+				break;
 		case KeyEvent.VK_UP:
-			lastPressedDirection=environment.Direction.UP;
-			break;
+			case KeyEvent.VK_W:
+				lastPressedDirection=environment.Direction.UP;
+				break;
 		case KeyEvent.VK_DOWN:
-			lastPressedDirection=environment.Direction.DOWN;
-			break;
+			case KeyEvent.VK_S:
+				lastPressedDirection=environment.Direction.DOWN;
+				break;
 		}
 	}
 
