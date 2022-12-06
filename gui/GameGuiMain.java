@@ -28,8 +28,6 @@ public class GameGuiMain implements Observer {
 			throw new RuntimeException(e);
 		}
 		buildGui();
-		System.out.println("teste");
-
 	}
 
 	private void buildGui() {
@@ -77,7 +75,9 @@ public class GameGuiMain implements Observer {
 			System.out.println("espera de ligação");
 			while(true) {
 				Socket socket = ss.accept();
+				System.out.println("Nova ligação");
 				new GameServer(socket).start();
+
 			}
 		} finally {
 			ss.close();
@@ -95,21 +95,30 @@ class GameServer extends Thread {
 
 	private Socket socket;
 	private OutputStream out;
-	private InputStream in;
+	private BufferedReader in;
 
 	protected GameServer(Socket socket) {
 		this.socket = socket;
 	}
 
 	private void doConnections(Socket socket) throws IOException {
-		in = new ObjectInputStream(socket.getInputStream());
+		in =  new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		out = new ObjectOutputStream(socket.getOutputStream());
+	}
+
+	private void serve() throws IOException {
+		String str = in.readLine();
+		while(true){
+			if(!str.equals(null))
+				System.out.println(str);
+		}
 	}
 
 	public void run() {
 		try {
 			try {
 				doConnections(socket);
+				serve();
 			} finally {
 				socket.close();
 			}
