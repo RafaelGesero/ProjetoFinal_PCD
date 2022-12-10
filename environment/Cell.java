@@ -53,12 +53,9 @@ public class Cell {
 	}
 
 	// Should not be used like this in the initial state: cell might be occupied, must coordinate this operation
-	public synchronized void setPlayer(Player player) throws InterruptedException {
+	public void setPlayer(Player player) throws InterruptedException {
 		l.lock();
 		try{
-			while(isOcupied()){
-
-			}
 			this.player = player;
 			player.returnPos(this);
 			player.setEstadoAtual(Estado.VIVO);
@@ -68,7 +65,7 @@ public class Cell {
 
 
 	}
-	
-	
+
+
 
 }

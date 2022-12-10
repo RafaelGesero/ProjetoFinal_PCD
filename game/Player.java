@@ -94,6 +94,8 @@ public abstract class Player implements Runnable{
 			return (byte) (currentStrength + loseStrPlayer);
 	}
 	public void fight(Player p) throws InterruptedException {
+
+
 		if(p.getEstadoAtual() == 1){
 			if (p.getCurrentStrength() > getCurrentStrength()) {
 				byte newStrength = p.sumStrength(this);
@@ -118,6 +120,7 @@ public abstract class Player implements Runnable{
 		}else {
 			Thread.sleep(game.MAX_WAITING_TIME_FOR_MOVE);
 		}
+		System.out.println("A posição " + p.getCurrentCell().getPosition() + " está ocupada pelo player " + p.getIdentification() + " e o player " + this.getIdentification() + " deseja mover-se para célula, o que dará um confronto");
 	}
 
 	public void returnPos(Cell currentCell){

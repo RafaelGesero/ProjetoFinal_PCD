@@ -3,6 +3,9 @@ package game;
 import environment.Coordinate;
 import environment.Direction;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadMXBean;
+
 /**
  * Class to demonstrate a player being added to the game.
  * @author luismota
@@ -52,6 +55,7 @@ public class PhoneyHumanPlayer extends Player  {
 			Direction goTo = moveTo();
 			Coordinate currentCor = getCurrentCell().getPosition();
 			Coordinate newCoor = currentCor.translate(goTo.getVector());
+
 			if(!(newCoor.x < 0 || newCoor.y < 0 || newCoor.x >= game.DIMX ||newCoor.y >= game.DIMY)){
 				if(game.getCell(newCoor).isOcupied()){
 					fight(game.getCell(newCoor).getPlayer());
@@ -74,6 +78,7 @@ public class PhoneyHumanPlayer extends Player  {
 	@Override
 	public void run() {
 		addPlayerToGame();
+	//	detectDeadLock();
 		try {
 			Thread.sleep(game.MAX_WAITING_TIME_FOR_MOVE);
 		} catch (InterruptedException e) {
@@ -92,4 +97,12 @@ public class PhoneyHumanPlayer extends Player  {
 			barreira.countDown(getIdentification());
 
 	}
+
+
+	/*private static void detectDeadLock(){
+		ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
+		long[] threadIds = threadMXBean.findDeadlockedThreads();
+		boolean deadLock = threadIds != null && threadIds.length>0;
+		System.out.println("Deadlocks descobertos " + deadLock);
+	}*/
 }
