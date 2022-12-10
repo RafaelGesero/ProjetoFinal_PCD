@@ -1,8 +1,9 @@
 package game;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Barreira {
+public class Barreira implements Serializable {
 
     private int count;
     ArrayList<Integer> finalizadores = new ArrayList<>();
@@ -13,7 +14,7 @@ public class Barreira {
     }
 
     public synchronized void await () throws InterruptedException {
-        while ( count >0)
+        while(count >0)
             wait ();
     }
 

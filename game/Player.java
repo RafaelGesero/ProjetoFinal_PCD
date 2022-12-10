@@ -2,6 +2,7 @@ package game;
 
 import environment.Cell;
 
+import java.io.Serializable;
 import java.util.concurrent.BrokenBarrierException;
 
 
@@ -10,7 +11,7 @@ import java.util.concurrent.BrokenBarrierException;
  * @author luismota
  *
  */
-public abstract class Player implements Runnable{
+public abstract class Player implements Runnable, Serializable {
 
 	protected final Game game;
 	private final int id;
@@ -120,22 +121,13 @@ public abstract class Player implements Runnable{
 		}else {
 			Thread.sleep(game.MAX_WAITING_TIME_FOR_MOVE);
 		}
-		System.out.println("A posição " + p.getCurrentCell().getPosition() + " está ocupada pelo player " + p.getIdentification() + " e o player " + this.getIdentification() + " deseja mover-se para célula, o que dará um confronto");
+		//System.out.println("A posição " + p.getCurrentCell().getPosition() + " está ocupada pelo player " + p.getIdentification() + " e o player " + this.getIdentification() + " deseja mover-se para célula, o que dará um confronto");
 	}
 
 	public void returnPos(Cell currentCell){
 		this.currentCell = currentCell;
 	}
 
-	public void addPlayerToGame(){
-		currentCell = game.getRandomCell();
-		try {
-			currentCell.setPlayer(this);
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
-		game.notifyChange();
-	}
 }
 
 

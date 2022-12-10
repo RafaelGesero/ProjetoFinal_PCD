@@ -5,9 +5,10 @@ import game.Game;
 import game.Lock;
 import game.Player;
 
+import java.io.Serializable;
 
 
-public class Cell {
+public class Cell implements Serializable{
 	private Coordinate position;
 	private Game game;
 	private Player player=null;

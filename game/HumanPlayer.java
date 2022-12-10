@@ -1,16 +1,6 @@
 package game;
 
-import environment.Direction;
 import gui.BoardJComponent;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.net.Socket;
 
 public class HumanPlayer extends Player {
 

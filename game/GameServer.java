@@ -2,16 +2,17 @@ package game;
 
 import gui.GameGuiMain;
 
+import javax.swing.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class GameServer {
 
     private ServerSocket ss;
     private int numPlayers = 0;
     private int maxPlayers = 2;
-    public Status status;
 
     private Socket sp1;
     private Socket sp2;
@@ -19,11 +20,11 @@ public class GameServer {
     private ReadFromClient inp2;
     private WriteToClient outp1;
     private WriteToClient outp2;
+    public ArrayList<Player> listaPlayers;
 
     public static final int PORTO = 8980;
 
-    public GameServer(Status status) {
-        this.status = status;
+    public GameServer(ArrayList<Player> listaPlayers) {
         try {
             ss = new ServerSocket(PORTO);
         } catch (IOException e) {
@@ -90,7 +91,7 @@ public class GameServer {
             System.out.println("teste");
             while(true){
                 try {
-                    out.writeObject(status);
+                    out.writeObject(listaPlayers);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

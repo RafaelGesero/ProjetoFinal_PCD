@@ -4,63 +4,81 @@ import environment.Direction;
 import gui.BoardJComponent;
 import gui.GameGuiMain;
 
+import javax.swing.*;
 import javax.swing.text.Style;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.ArrayList;
 
-public class Client{
-    private Status status;
+public class Client extends Thread {
     private Direction direction;
     private Socket socket;
     private int humanPlayerId;
 
-    public Client (){
+   private BoardJComponent boardGui;
+
+    ObjectInputStream in;
+    DataOutputStream out;
+
+    public Client() {
     }
 
-    public Direction getDirection(){
+    public Direction getDirection() {
         return direction;
     }
 
     public void runClient() throws InterruptedException, ClassNotFoundException {
         try {
             connectToServer();
+             humanPlayerId = (int) in.readObject();
+            System.out.println("entras-te no jogoo teu id é : " + humanPlayerId);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void connectToServer() throws IOException {
+            socket = new Socket("localhost", GameServer.PORTO);
+             in = new ObjectInputStream(socket.getInputStream());
+             out = new DataOutputStream(socket.getOutputStream());
+    }
+
+    public void run(){
+        try {
+            runClient();
+            while(true){
+                boardGui = (BoardJComponent) in.readObject();
+                JFrame frame = new JFrame("jogador " + humanPlayerId);
+                frame.add(boardGui);
+                frame.setSize(800,800);
+                frame.setLocation(500, 150);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setVisible(true);
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException | IOException e) {
+            throw new RuntimeException(e);
         } finally {
             try {
-                    socket.close();
+                socket.close();
             } catch (IOException e) {
                 System.out.println("erro1 no runclient");
             }
         }
     }
 
-    public void connectToServer(){
-        try {
-            socket = new Socket("localhost", GameServer.PORTO);
-            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-            humanPlayerId = in.readInt();
-            System.out.println(humanPlayerId);
-
-            ReadFromServer rfs = new ReadFromServer(in);
-            WriteToServer wft = new WriteToServer(out);
-            rfs.start();
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private class  ReadFromServer extends Thread{
+    private class ReadFromServer extends Thread {
 
         private ObjectInputStream in;
 
-        public ReadFromServer(ObjectInputStream in){
+        public ReadFromServer(ObjectInputStream in) {
             this.in = in;
         }
-        public void run(){
-            System.out.println("teste");
-            while(true){
+
+        public void run() {
+            while (true) {
                 try {
                     Status s = (Status) in.readObject();
                     s.getBoard().setVisible(true);
@@ -73,30 +91,22 @@ public class Client{
         }
     }
 
-    private class  WriteToServer extends Thread{
+    private class WriteToServer extends Thread {
 
         private DataOutputStream out;
 
-        public WriteToServer(DataOutputStream out){
+        public WriteToServer(DataOutputStream out) {
             this.out = out;
         }
-        public void run(){
+
+        public void run() {
 
         }
     }
 
 
-
-
     public static void main(String[] args) {
-        try {
-            try {
-                new Client().runClient();
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        Client c1 = new Client();
+        c1.start();
     }
 }

@@ -13,7 +13,7 @@ import com.sun.source.tree.NewClassTree;
 import environment.Cell;
 import environment.Coordinate;
 
-public class Game extends Observable{
+public class Game extends Observable implements Serializable{
 
 	public static final int DIMY = 30;
 	public static final int DIMX = 30;

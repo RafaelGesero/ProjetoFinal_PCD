@@ -3,6 +3,7 @@ package game;
 import environment.Coordinate;
 import environment.Direction;
 
+import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;
 
@@ -14,7 +15,7 @@ import java.lang.management.ThreadMXBean;
 
 
 
-public class PhoneyHumanPlayer extends Player  {
+public class PhoneyHumanPlayer extends Player{
 
 	private int countMove;
 	private final byte originalStrength;
@@ -77,7 +78,7 @@ public class PhoneyHumanPlayer extends Player  {
 
 	@Override
 	public void run() {
-		addPlayerToGame();
+		game.addPlayerToGame(this);
 	//	detectDeadLock();
 		try {
 			Thread.sleep(game.MAX_WAITING_TIME_FOR_MOVE);
