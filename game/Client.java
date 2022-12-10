@@ -45,16 +45,20 @@ public class Client extends Thread {
     }
 
     public void run(){
+        JFrame frame = new JFrame("jogador " + humanPlayerId);
+        frame.setSize(800,800);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         try {
             runClient();
             while(true){
+
+                System.out.println("a aguardar...");
                 boardGui = (BoardJComponent) in.readObject();
-                JFrame frame = new JFrame("jogador " + humanPlayerId);
+                frame.getContentPane().removeAll();
                 frame.add(boardGui);
-                frame.setSize(800,800);
-                frame.setLocation(500, 150);
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setVisible(true);
+                frame.setLocation(500, 350);
+                frame.repaint();
             }
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
@@ -69,44 +73,11 @@ public class Client extends Thread {
         }
     }
 
-    private class ReadFromServer extends Thread {
-
-        private ObjectInputStream in;
-
-        public ReadFromServer(ObjectInputStream in) {
-            this.in = in;
-        }
-
-        public void run() {
-            while (true) {
-                try {
-                    Status s = (Status) in.readObject();
-                    s.getBoard().setVisible(true);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-    }
-
-    private class WriteToServer extends Thread {
-
-        private DataOutputStream out;
-
-        public WriteToServer(DataOutputStream out) {
-            this.out = out;
-        }
-
-        public void run() {
-
-        }
-    }
-
 
     public static void main(String[] args) {
         Client c1 = new Client();
+
         c1.start();
+
     }
 }

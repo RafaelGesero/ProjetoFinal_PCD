@@ -14,7 +14,7 @@ import javax.swing.*;
 
 
 public class GameGuiMain implements Observer {
-	private JFrame frame = new JFrame("pcd.io");
+	private JFrame frame = new JFrame("jogador 1");
 	private BoardJComponent boardGui;
 	private Game game;
 	public GameGuiMain() {
@@ -40,7 +40,9 @@ public class GameGuiMain implements Observer {
 		Server server = new Server();
 		server.doConnections();
 		//server.start();
-		frame.setVisible(false);
+		frame.setSize(800,800);
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Barreira finalJogo = new Barreira(3);
 		//Thread.sleep(game.INITIAL_WAITING_TIME);
 		for(int i = 0 ; i < 100 ; i++){
@@ -99,6 +101,8 @@ class Server extends Thread{
 	}
 
 	public void run(){
+
+		//acho q a parte do doConnections vai ter de ser aqui,
 
 	}
 }
