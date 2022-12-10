@@ -12,6 +12,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.Serializable;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
@@ -31,11 +32,13 @@ public class BoardJComponent extends JComponent implements KeyListener {
 	private Image obstacleImage = new ImageIcon("obstacle.png").getImage();
 	private Image humanPlayerImage= new ImageIcon("abstract-user-flat.png").getImage();
 	private Direction lastPressedDirection=null;
+	private final boolean alternativeKeys;
 
-	public BoardJComponent(Game game) {
+	public BoardJComponent(Game game, boolean alternativeKeys) {
 		this.game = game;
 		setFocusable(true);
 		addKeyListener(this);
+		this.alternativeKeys = alternativeKeys;
 	}
 
 	@Override
@@ -105,23 +108,36 @@ public class BoardJComponent extends JComponent implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		switch(e.getKeyCode()){
-		case KeyEvent.VK_LEFT:
-			case KeyEvent.VK_A:
-			lastPressedDirection=environment.Direction.LEFT;
-			break;
-		case KeyEvent.VK_RIGHT:
-			case KeyEvent.VK_D:
-				lastPressedDirection=environment.Direction.RIGHT;
-				break;
-		case KeyEvent.VK_UP:
-			case KeyEvent.VK_W:
-				lastPressedDirection=environment.Direction.UP;
-				break;
-		case KeyEvent.VK_DOWN:
-			case KeyEvent.VK_S:
-				lastPressedDirection=environment.Direction.DOWN;
-				break;
+		if(alternativeKeys) {
+			switch(e.getKeyCode()){
+				case  KeyEvent.VK_A:
+					lastPressedDirection=environment.Direction.LEFT;
+					break;
+				case  KeyEvent.VK_D:
+					lastPressedDirection=environment.Direction.RIGHT;
+					break;
+				case KeyEvent.VK_W:
+					lastPressedDirection=environment.Direction.UP;
+					break;
+				case KeyEvent.VK_S:
+					lastPressedDirection=environment.Direction.DOWN;
+					break;
+			}
+		}else {
+			switch(e.getKeyCode()){
+				case  KeyEvent.VK_LEFT:
+					lastPressedDirection=environment.Direction.LEFT;
+					break;
+				case  KeyEvent.VK_RIGHT:
+					lastPressedDirection=environment.Direction.RIGHT;
+					break;
+				case KeyEvent.VK_UP:
+					lastPressedDirection=environment.Direction.UP;
+					break;
+				case KeyEvent.VK_DOWN:
+					lastPressedDirection=environment.Direction.DOWN;
+					break;
+			}
 		}
 	}
 

@@ -15,23 +15,20 @@ public class GameGuiMain implements Observer {
 	private JFrame frame = new JFrame("pcd.io");
 	private BoardJComponent boardGui;
 	private Game game;
-	public static final int PORTO = 8980;
-
 
 	public GameGuiMain() {
 		super();
 		game = new Game();
 		game.addObserver(this);
-		try {
-			startServing();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-		buildGui();
+		//buildGui();
+	}
+
+	public JFrame getFrame(){
+		return frame;
 	}
 
 	private void buildGui() {
-		boardGui = new BoardJComponent(game);
+		boardGui = new BoardJComponent(game, true);
 		frame.add(boardGui);
 		frame.setSize(800,800);
 		frame.setLocation(500, 150);
@@ -69,63 +66,14 @@ public class GameGuiMain implements Observer {
 		boardGui.repaint();
 	}
 
-	public void startServing() throws IOException{
-		ServerSocket ss = new ServerSocket(PORTO);
-		try {
-			System.out.println("espera de ligação");
-			while(true) {
-				Socket socket = ss.accept();
-				System.out.println("Nova ligação");
-				new GameServer(socket).start();
 
-			}
-		} finally {
-			ss.close();
-		}
-	}
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException {
 		GameGuiMain game = new GameGuiMain();
-		game.init();
+		//game.init();
+		Status status = new Status(game.getFrame());
+		GameServer gs = new GameServer(status);
+		gs.doConnections();
 	}
 
 }
-
-class GameServer extends Thread {
-
-	private Socket socket;
-	private OutputStream out;
-	private BufferedReader in;
-
-	protected GameServer(Socket socket) {
-		this.socket = socket;
-	}
-
-	private void doConnections(Socket socket) throws IOException {
-		in =  new BufferedReader(new InputStreamReader(socket.getInputStream()));
-		out = new ObjectOutputStream(socket.getOutputStream());
-	}
-
-	private void serve() throws IOException {
-		String str = in.readLine();
-		while(true){
-			if(!str.equals(null))
-				System.out.println(str);
-		}
-	}
-
-	public void run() {
-		try {
-			try {
-				doConnections(socket);
-				serve();
-			} finally {
-				socket.close();
-			}
-		} catch (IOException e) {
-			System.out.println("Erro no run");
-		}
-	}
-
-}
-
