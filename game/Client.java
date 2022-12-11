@@ -6,27 +6,21 @@ import gui.GameGuiMain;
 
 import javax.swing.*;
 import javax.swing.text.Style;
+import java.awt.event.KeyEvent;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 
 public class Client extends Thread {
-    private Direction direction;
     private Socket socket;
     private int humanPlayerId;
 
    private BoardJComponent boardGui;
+   private Game game;
 
-    ObjectInputStream in;
-    DataOutputStream out;
-
-    public Client() {
-    }
-
-    public Direction getDirection() {
-        return direction;
-    }
+    private ObjectInputStream in;
+    private PrintWriter out;
 
     public void runClient() throws InterruptedException, ClassNotFoundException, IOException {
             connectToServer();
@@ -36,9 +30,10 @@ public class Client extends Thread {
     }
 
     private void connectToServer() throws IOException {
-            socket = new Socket("localhost", GameServer.PORTO);
+            socket = new Socket("localhost", Server.PORTO);
              in = new ObjectInputStream(socket.getInputStream());
-             out = new DataOutputStream(socket.getOutputStream());
+             out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
+
     }
 
     public void run(){
@@ -48,14 +43,26 @@ public class Client extends Thread {
             frame.setSize(800,800);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setLocation(500, 350);
+            frame.setFocusable(true);
+            game = null;
+            boardGui = new BoardJComponent(game);
             while(true){
-                boardGui = (BoardJComponent) in.readObject();
+                game = (Game) in.readObject();
+                boardGui.refresh(game);
+                boardGui.repaint();
                 frame.getContentPane().removeAll();
                 frame.add(boardGui);
                 frame.setVisible(true);
+                frame.addKeyListener(boardGui);
+
+                if (boardGui.getLastPressedDirection() != null){
+                    System.out.println(boardGui.getLastPressedDirection().toString());
+                    out.println(boardGui.getLastPressedDirection().toString());
+                    System.out.println("enviei");
+                    boardGui.clearLastPressedDirection();
+                }
+
             }
-
-
 
         } catch (InterruptedException e) {
             throw new RuntimeException(e);

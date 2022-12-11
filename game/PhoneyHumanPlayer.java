@@ -87,12 +87,12 @@ public class PhoneyHumanPlayer extends Player implements Runnable{
 		}
 		while (estadoAtual == Estado.VIVO) {
 			try {
-					move();
+				move();
+				game.notifyChange();
 				Thread.sleep(game.REFRESH_INTERVAL);
 			} catch (InterruptedException e) {
 				throw new RuntimeException(e);
 			}
-			game.notifyChange();
 		}
 		if (estadoAtual == Estado.TERMINAL)
 			barreira.countDown(getIdentification());

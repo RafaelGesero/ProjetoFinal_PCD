@@ -13,6 +13,7 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.Serializable;
+import java.util.stream.StreamSupport;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
@@ -28,17 +29,15 @@ import javax.swing.JComponent;
  */
 public class BoardJComponent extends JComponent implements KeyListener, Serializable {
 	private Game game;
-
 	private transient Image obstacleImage = new ImageIcon("obstacle.png").getImage();
 	private transient Image humanPlayerImage= new ImageIcon("abstract-user-flat.png").getImage();
 	private Direction lastPressedDirection=null;
-	private final boolean alternativeKeys;
+	private final boolean alternativeKeys = false;
 
-	public BoardJComponent(Game game, boolean alternativeKeys) {
+	public BoardJComponent(Game game) {
 		this.game = game;
 		setFocusable(true);
 		addKeyListener(this);
-		this.alternativeKeys = alternativeKeys;
 	}
 
 	@Override
@@ -157,5 +156,9 @@ public class BoardJComponent extends JComponent implements KeyListener, Serializ
 
 	public void clearLastPressedDirection() {
 		lastPressedDirection=null;
+	}
+
+	public void refresh(Game game){
+		this.game = game;
 	}
 }

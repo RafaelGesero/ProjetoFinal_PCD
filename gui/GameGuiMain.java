@@ -23,12 +23,12 @@ public class GameGuiMain implements Observer {
 		buildGui();
 	}
 
-	public BoardJComponent getBoardGui(){
-		return boardGui;
+	public Game getGame(){
+		return game;
 	}
 
 	private void buildGui() {
-		boardGui = new BoardJComponent(game, true);
+		boardGui = new BoardJComponent(game);
 		frame.add(boardGui);
 		frame.setSize(800,800);
 		frame.setLocation(500, 150);
@@ -40,11 +40,11 @@ public class GameGuiMain implements Observer {
 		server.start();
 
 		frame.setSize(800,800);
-		frame.setVisible(true);
+		frame.setVisible(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		finalJogo = new Barreira(3);
 		Thread.sleep(game.INITIAL_WAITING_TIME);
-		for(int i = 0 ; i < 100 ; i++){
+		for(int i = 0 ; i < 10 ; i++){
 			Player p = new PhoneyHumanPlayer(i, game, finalJogo);
 			Thread t = new Thread((Runnable) p);
 			t.start();
@@ -53,7 +53,7 @@ public class GameGuiMain implements Observer {
 	}
 
 	public void addHumanPlayer(int humanId){
-		HumanPlayer hp = new HumanPlayer(humanId, game, finalJogo, true);
+		HumanPlayer hp = new HumanPlayer(humanId, game, finalJogo);
 	}
 	@Override
 	public void update(Observable o, Object arg) {
@@ -69,62 +69,4 @@ public class GameGuiMain implements Observer {
 		}
 	}
 
-}
-class Server extends Thread{
-
-	private int numPlayers = 0;
-	private ServerSocket ss ;
-	protected GameGuiMain gui;
-
-	public Server(GameGuiMain gui) throws IOException {
-		this.gui = gui;
-		ss = new ServerSocket(GameServer.PORTO);
-	}
-
-	private void  doConnections() throws IOException {
-			Socket s = ss.accept();
-			 DataInputStream in  = new DataInputStream(s.getInputStream());
-			 ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
-			numPlayers++;
-			out.writeObject(numPlayers);
-			out.reset();
-			new ClientHandler(s, in, out).start();
-	}
-
-	public void run() {
-		while(true){
-			try {
-				System.out.println("waiting for connection....");
-				doConnections();
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
-
-	}
-	class ClientHandler extends Thread{
-
-private Socket clientSocker;
-private DataInputStream in;
-private ObjectOutputStream out;
-
-		public ClientHandler(Socket clientSocker, DataInputStream in, ObjectOutputStream out){
-			this.clientSocker = clientSocker;
-			this.in = in;
-			this.out = out;
-		}
-
-		public void run(){
-			while(true){
-				try {
-					out.reset();
-					out.writeObject(gui.getBoardGui());
-					sleep(Game.REFRESH_INTERVAL);
-				} catch (IOException | InterruptedException e) {
-					throw new RuntimeException(e);
-				}
-			}
-		}
-
-	}
 }

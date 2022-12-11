@@ -6,13 +6,11 @@ public class HumanPlayer extends Player {
 
     private String name;
     BoardJComponent boardGui;
-    private boolean keyTeclas;
 
-    public HumanPlayer(int id, Game game, Barreira barreira, boolean keyTeclas) {
+    public HumanPlayer(int id, Game game, Barreira barreira) {
         super(id, game, barreira);
         currentStrength = 5;
 
-        this.keyTeclas = keyTeclas;
     }
 
 
