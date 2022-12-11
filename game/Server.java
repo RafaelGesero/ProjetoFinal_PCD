@@ -9,9 +9,10 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Server extends Thread{
+public class Server {
 
     private int numPlayers = 0;
+    private int maxPlayers=2;
     private ServerSocket ss ;
     protected GameGuiMain gui;
 
@@ -22,29 +23,22 @@ public class Server extends Thread{
         ss = new ServerSocket(Server.PORTO);
     }
 
-    private void  doConnections() throws IOException {
-        Socket s = ss.accept();
-        BufferedReader in  = new BufferedReader(new InputStreamReader(s.getInputStream()));
-        ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
-        numPlayers++;
-        out.writeObject(numPlayers);
-        out.reset();
-        new InfoToClient( out).start();
-        new InfoFromClient(in).start();
-        HumanPlayer hp = new HumanPlayer(numPlayers, gui.getGame(), gui.getBarreira());
-        gui.getGame().addPlayerToGame(hp);
-    }
+    public void  doConnections() throws IOException {
 
-    public void run() {
-        while(true){
-            try {
-                doConnections();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        while (numPlayers < maxPlayers ){
+            Socket s = ss.accept();
+            BufferedReader in  = new BufferedReader(new InputStreamReader(s.getInputStream()));
+            ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
+            numPlayers++;
+            out.writeObject(numPlayers);
+            out.reset();
+            new InfoToClient( out).start();
+            new InfoFromClient(in).start();
+            HumanPlayer hp = new HumanPlayer(numPlayers, gui.getGame(), gui.getBarreira());
+            gui.getGame().addPlayerToGame(hp);
         }
-
     }
+
     class InfoToClient extends Thread{
         private ObjectOutputStream out;
 

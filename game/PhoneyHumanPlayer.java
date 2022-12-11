@@ -64,7 +64,7 @@ public class PhoneyHumanPlayer extends Player implements Runnable{
 					return;
 				}
 				getCurrentCell().setPlayerToNull();
-					game.getCell(newCoor).setPlayer(this);
+				game.getCell(newCoor).setPlayer(this);
 				} catch (InterruptedException e) {
 					throw new RuntimeException(e);
 				}
