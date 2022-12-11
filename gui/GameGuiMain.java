@@ -1,8 +1,6 @@
 package gui;
 
 import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -56,9 +54,7 @@ public class GameGuiMain implements Observer {
 		finalJogo.await();
 	}
 
-	public void addHumanPlayer(int humanId){
-		HumanPlayer hp = new HumanPlayer(humanId, game, finalJogo);
-	}
+
 	@Override
 	public void update(Observable o, Object arg) {
 		boardGui.repaint();

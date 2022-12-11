@@ -14,6 +14,7 @@ public class Server extends Thread {
     private int numPlayers = 0;
     private int maxPlayers=2;
     private ServerSocket ss ;
+    private Socket socket;
     protected GameGuiMain gui;
 
     public static final int PORTO = 8090;
@@ -25,9 +26,9 @@ public class Server extends Thread {
 
     public void  doConnections() throws IOException {
 
-        Socket s = ss.accept();
-        BufferedReader in  = new BufferedReader(new InputStreamReader(s.getInputStream()));
-        ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
+        socket = ss.accept();
+        BufferedReader in  = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
         numPlayers++;
         out.writeObject(numPlayers);
         out.reset();
@@ -63,7 +64,14 @@ public class Server extends Thread {
                     out.reset();
                     out.writeObject(gui.getGame());
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    try {
+                        System.out.println("O jogo terminou de fomra forçada");
+                        socket.close();
+                        System.exit(0);
+
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
             }
         }
@@ -87,10 +95,15 @@ public class Server extends Thread {
                     hp.setGoTo(str);
                     hp.move();
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    try {
+                        socket.close();
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+
                 }
             }
-            }
+        }
 
 
     }

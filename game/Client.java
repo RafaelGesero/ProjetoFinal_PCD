@@ -23,10 +23,13 @@ public class Client extends Thread {
     private PrintWriter out;
 
     public void runClient() throws InterruptedException, ClassNotFoundException, IOException {
+        try{
             connectToServer();
-             humanPlayerId = (int) in.readObject();
+            humanPlayerId = (int) in.readObject();
             System.out.println("entrou no jogo,o teu id é : " + humanPlayerId);
-
+        } catch (IOException e) {
+            socket.close();
+        }
     }
 
     private void connectToServer() throws IOException {
@@ -71,7 +74,12 @@ public class Client extends Thread {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            try {
+                socket.close();
+                System.exit(0);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 
