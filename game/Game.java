@@ -38,7 +38,6 @@ public class Game extends Observable implements Serializable{
 
 
 	}
-	
 	/** 
 	 * @param player 
 	 */

@@ -27,6 +27,10 @@ public class GameGuiMain implements Observer {
 		return game;
 	}
 
+	public Barreira getBarreira(){
+		return finalJogo;
+	}
+
 	private void buildGui() {
 		boardGui = new BoardJComponent(game);
 		frame.add(boardGui);
@@ -38,9 +42,8 @@ public class GameGuiMain implements Observer {
 	public void init() throws IOException, InterruptedException {
 		Server server = new Server(this);
 		server.start();
-
 		frame.setSize(800,800);
-		frame.setVisible(false);
+		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		finalJogo = new Barreira(3);
 		Thread.sleep(game.INITIAL_WAITING_TIME);

@@ -58,7 +58,6 @@ public class Client extends Thread {
                 if (boardGui.getLastPressedDirection() != null){
                     System.out.println(boardGui.getLastPressedDirection().toString());
                     out.println(boardGui.getLastPressedDirection().toString());
-                    System.out.println("enviei");
                     boardGui.clearLastPressedDirection();
                 }
 

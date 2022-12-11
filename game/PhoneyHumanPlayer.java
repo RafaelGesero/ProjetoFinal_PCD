@@ -51,19 +51,19 @@ public class PhoneyHumanPlayer extends Player implements Runnable{
 		return null;
 	}
 
-	public  void  move() throws InterruptedException {
+	public  void  move() {
 		if(countMove == 1 && estadoAtual == Estado.VIVO){
 			Direction goTo = moveTo();
 			Coordinate currentCor = getCurrentCell().getPosition();
 			Coordinate newCoor = currentCor.translate(goTo.getVector());
 
 			if(!(newCoor.x < 0 || newCoor.y < 0 || newCoor.x >= game.DIMX ||newCoor.y >= game.DIMY)){
+				try {
 				if(game.getCell(newCoor).isOcupied()){
 					fight(game.getCell(newCoor).getPlayer());
 					return;
 				}
 				getCurrentCell().setPlayerToNull();
-				try {
 					game.getCell(newCoor).setPlayer(this);
 				} catch (InterruptedException e) {
 					throw new RuntimeException(e);

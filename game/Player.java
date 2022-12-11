@@ -35,6 +35,8 @@ public abstract class Player implements  Serializable {
 	}
 
 	public abstract boolean isHumanPlayer();
+
+	public abstract void move();
 	
 	@Override
 	public String toString() {

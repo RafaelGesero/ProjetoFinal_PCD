@@ -31,12 +31,13 @@ public class Server extends Thread{
         out.reset();
         new InfoToClient( out).start();
         new InfoFromClient(in).start();
+        HumanPlayer hp = new HumanPlayer(numPlayers, gui.getGame(), gui.getBarreira());
+        gui.getGame().addPlayerToGame(hp);
     }
 
     public void run() {
         while(true){
             try {
-                System.out.println("waiting for connection....");
                 doConnections();
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -78,7 +79,6 @@ public class Server extends Thread{
         public void run(){
             while (true){
                 try {
-                    System.out.println("espera pela direção");
                     String str = in.readLine();
                     System.out.println("nova direção: " + str);
                 } catch (IOException e) {
