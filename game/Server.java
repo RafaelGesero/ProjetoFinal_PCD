@@ -24,7 +24,6 @@ public class Server {
     }
 
     public void  doConnections() throws IOException {
-
         while (numPlayers < maxPlayers ){
             Socket s = ss.accept();
             BufferedReader in  = new BufferedReader(new InputStreamReader(s.getInputStream()));

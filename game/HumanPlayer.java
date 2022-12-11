@@ -28,7 +28,6 @@ public class HumanPlayer extends Player {
         }
     }
 
-
     @Override
     public boolean isHumanPlayer() {
         return true;

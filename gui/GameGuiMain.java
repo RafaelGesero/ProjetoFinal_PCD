@@ -41,12 +41,14 @@ public class GameGuiMain implements Observer {
 
 	public void init() throws IOException, InterruptedException {
 		Server server = new Server(this);
-		server.start();
+		server.doConnections();
 		frame.setSize(800,800);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		finalJogo = new Barreira(3);
 		Thread.sleep(game.INITIAL_WAITING_TIME);
+
+
 		for(int i = 0 ; i < 10 ; i++){
 			Player p = new PhoneyHumanPlayer(i, game, finalJogo);
 			Thread t = new Thread((Runnable) p);
@@ -55,9 +57,6 @@ public class GameGuiMain implements Observer {
 		finalJogo.await();
 	}
 
-	public void addHumanPlayer(int humanId){
-		HumanPlayer hp = new HumanPlayer(humanId, game, finalJogo);
-	}
 	@Override
 	public void update(Observable o, Object arg) {
 		boardGui.repaint();
