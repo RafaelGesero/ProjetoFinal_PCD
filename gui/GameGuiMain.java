@@ -48,7 +48,7 @@ public class GameGuiMain implements Observer {
 		finalJogo = new Barreira(3);
 		Thread.sleep(game.INITIAL_WAITING_TIME);
 		System.out.println("o jogo vai começar");
-		for(int i = 0 ; i < 10 ; i++){
+		for(int i = 0 ; i < 90 ; i++){
 			Player p = new PhoneyHumanPlayer(i, game, finalJogo);
 			Thread t = new Thread((Runnable) p);
 			t.start();

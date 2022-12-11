@@ -45,7 +45,10 @@ public class Client extends Thread {
             frame.setLocation(500, 350);
             frame.setFocusable(true);
             game = null;
-            boardGui = new BoardJComponent(game);
+            if(humanPlayerId == 1)
+                boardGui = new BoardJComponent(game, true);
+            else
+                boardGui = new BoardJComponent(game, false );
             while(true){
                 game = (Game) in.readObject();
                 boardGui.refresh(game);

@@ -67,7 +67,6 @@ public class BoardJComponent extends JComponent implements KeyListener, Serializ
 								(int) (cellWidth), (int) (cellHeight), null);
 						continue;
 					}
-
 					if(player.getEstadoAtual() == 3){
 						g.drawString("X",
 								(int) ((p.x + .2) * cellWidth),

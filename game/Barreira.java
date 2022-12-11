@@ -19,6 +19,7 @@ public class Barreira implements Serializable {
     }
 
     public synchronized void countDown (int id){
+        System.out.println("terminei " + id);
         finalizadores.add(id);
         count --;
         if( count ==0){

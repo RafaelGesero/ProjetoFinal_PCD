@@ -38,6 +38,7 @@ public class HumanPlayer extends Player {
 
     @Override
     public void move() {
+        System.out.println(estadoAtual);
         if(estadoAtual == Estado.VIVO){
             Coordinate currentCoor = getCurrentCell().getPosition();
             Coordinate newCoor = currentCoor.translate(goTo.getVector());
@@ -45,6 +46,8 @@ public class HumanPlayer extends Player {
                 try {
                     if(game.getCell(newCoor).isOcupied()){
                         fight(game.getCell(newCoor).getPlayer());
+                        if (estadoAtual == Estado.TERMINAL)
+                            barreira.countDown(getIdentification());
                         return;
                     }
                     getCurrentCell().setPlayerToNull();
@@ -54,5 +57,6 @@ public class HumanPlayer extends Player {
                 }
             }
         }
+
     }
 }
