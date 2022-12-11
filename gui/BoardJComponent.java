@@ -56,7 +56,6 @@ public class BoardJComponent extends JComponent implements KeyListener, Serializ
 		for (int x = 0; x < Game.DIMX; x++) 
 			for (int y = 0; y < Game.DIMY; y++) {
 				Coordinate p = new Coordinate(x, y);
-
 				Player player = game.getCell(p).getPlayer();
 				if(player!=null) {
 					if(player.getEstadoAtual() == 2) {

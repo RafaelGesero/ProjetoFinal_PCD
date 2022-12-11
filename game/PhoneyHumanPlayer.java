@@ -15,7 +15,7 @@ import java.lang.management.ThreadMXBean;
 
 
 
-public class PhoneyHumanPlayer extends Player{
+public class PhoneyHumanPlayer extends Player implements Runnable{
 
 	private int countMove;
 	private final byte originalStrength;
@@ -87,7 +87,7 @@ public class PhoneyHumanPlayer extends Player{
 		}
 		while (estadoAtual == Estado.VIVO) {
 			try {
-				move();
+					move();
 				Thread.sleep(game.REFRESH_INTERVAL);
 			} catch (InterruptedException e) {
 				throw new RuntimeException(e);

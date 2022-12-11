@@ -28,48 +28,41 @@ public class Client extends Thread {
         return direction;
     }
 
-    public void runClient() throws InterruptedException, ClassNotFoundException {
-        try {
+    public void runClient() throws InterruptedException, ClassNotFoundException, IOException {
             connectToServer();
              humanPlayerId = (int) in.readObject();
-            System.out.println("entras-te no jogoo teu id é : " + humanPlayerId);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+            System.out.println("entrou no jogo,o teu id é : " + humanPlayerId);
+
     }
 
-    public void connectToServer() throws IOException {
+    private void connectToServer() throws IOException {
             socket = new Socket("localhost", GameServer.PORTO);
              in = new ObjectInputStream(socket.getInputStream());
              out = new DataOutputStream(socket.getOutputStream());
     }
 
     public void run(){
-        JFrame frame = new JFrame("jogador " + humanPlayerId);
-        frame.setSize(800,800);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         try {
             runClient();
+            JFrame frame = new JFrame("jogador " + humanPlayerId);
+            frame.setSize(800,800);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setLocation(500, 350);
             while(true){
-
-                System.out.println("a aguardar...");
                 boardGui = (BoardJComponent) in.readObject();
                 frame.getContentPane().removeAll();
                 frame.add(boardGui);
                 frame.setVisible(true);
-                frame.setLocation(500, 350);
-                frame.repaint();
             }
+
+
+
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
-        } catch (ClassNotFoundException | IOException e) {
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
-        } finally {
-            try {
-                socket.close();
-            } catch (IOException e) {
-                System.out.println("erro1 no runclient");
-            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

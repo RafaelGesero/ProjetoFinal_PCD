@@ -3,8 +3,6 @@ package gui;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -14,8 +12,9 @@ import javax.swing.*;
 
 
 public class GameGuiMain implements Observer {
-	private JFrame frame = new JFrame("jogador 1");
+	private JFrame frame = new JFrame("pcd.io");
 	private BoardJComponent boardGui;
+	private Barreira finalJogo;
 	private Game game;
 	public GameGuiMain() {
 		super();
@@ -24,8 +23,8 @@ public class GameGuiMain implements Observer {
 		buildGui();
 	}
 
-	public JFrame getFrame(){
-		return frame;
+	public BoardJComponent getBoardGui(){
+		return boardGui;
 	}
 
 	private void buildGui() {
@@ -37,28 +36,31 @@ public class GameGuiMain implements Observer {
 	}
 
 	public void init() throws IOException, InterruptedException {
-		Server server = new Server();
-		server.doConnections();
-		//server.start();
+		Server server = new Server(this);
+		server.start();
+
 		frame.setSize(800,800);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Barreira finalJogo = new Barreira(3);
-		//Thread.sleep(game.INITIAL_WAITING_TIME);
+		finalJogo = new Barreira(3);
+		Thread.sleep(game.INITIAL_WAITING_TIME);
 		for(int i = 0 ; i < 100 ; i++){
 			Player p = new PhoneyHumanPlayer(i, game, finalJogo);
-			Thread t = new Thread(p);
+			Thread t = new Thread((Runnable) p);
 			t.start();
 		}
-		server.sendObjects(boardGui);
 		finalJogo.await();
+	}
+
+	public void addHumanPlayer(int humanId){
+		HumanPlayer hp = new HumanPlayer(humanId, game, finalJogo, true);
 	}
 	@Override
 	public void update(Observable o, Object arg) {
 		boardGui.repaint();
 	}
 
-	public static void main(String[] args) throws IOException, ClassNotFoundException {
+	public static void main(String[] args) throws IOException {
 		GameGuiMain game = new GameGuiMain();
 		try {
 			game.init();
@@ -68,42 +70,61 @@ public class GameGuiMain implements Observer {
 	}
 
 }
-
 class Server extends Thread{
 
 	private int numPlayers = 0;
-	private int maxPlayers = 2;
 	private ServerSocket ss ;
-	DataInputStream in;
-	ObjectOutputStream out;
-	Socket s;
+	protected GameGuiMain gui;
 
-	public Server() throws IOException {
+	public Server(GameGuiMain gui) throws IOException {
+		this.gui = gui;
 		ss = new ServerSocket(GameServer.PORTO);
 	}
 
-	public void  doConnections() throws IOException {
-		System.out.println("espera de ligações");
-		while (numPlayers < maxPlayers) {
+	private void  doConnections() throws IOException {
 			Socket s = ss.accept();
-			System.out.println("Nova ligação " + numPlayers);
-			 in = new DataInputStream(s.getInputStream());
-			 out = new ObjectOutputStream(s.getOutputStream());
+			 DataInputStream in  = new DataInputStream(s.getInputStream());
+			 ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
 			numPlayers++;
 			out.writeObject(numPlayers);
+			out.reset();
+			new ClientHandler(s, in, out).start();
+	}
+
+	public void run() {
+		while(true){
+			try {
+				System.out.println("waiting for connection....");
+				doConnections();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
 		}
-		System.out.println("O servidor ja nao aceita mais ligações");
+
 	}
+	class ClientHandler extends Thread{
 
-	public void sendObjects(BoardJComponent boardGui) throws IOException {
-		System.out.println("teste1");
-		out.writeObject(boardGui);
-	}
+private Socket clientSocker;
+private DataInputStream in;
+private ObjectOutputStream out;
 
-	public void run(){
+		public ClientHandler(Socket clientSocker, DataInputStream in, ObjectOutputStream out){
+			this.clientSocker = clientSocker;
+			this.in = in;
+			this.out = out;
+		}
 
-		//acho q a parte do doConnections vai ter de ser aqui,
+		public void run(){
+			while(true){
+				try {
+					out.reset();
+					out.writeObject(gui.getBoardGui());
+					sleep(Game.REFRESH_INTERVAL);
+				} catch (IOException | InterruptedException e) {
+					throw new RuntimeException(e);
+				}
+			}
+		}
 
 	}
 }
-
