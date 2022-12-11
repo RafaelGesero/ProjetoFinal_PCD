@@ -2,7 +2,6 @@ package game;
 
 import environment.Coordinate;
 import environment.Direction;
-import gui.BoardJComponent;
 
 public class HumanPlayer extends Player {
 
@@ -19,12 +18,16 @@ public class HumanPlayer extends Player {
         switch (str){
             case "UP":
                 goTo = Direction.UP;
+                break;
             case "DOWN":
                 goTo = Direction.DOWN;
+                break;
             case "LEFT":
                 goTo = Direction.LEFT;
+                break;
             case "RIGHT":
                 goTo = Direction.RIGHT;
+                break;
         }
     }
 
@@ -35,14 +38,20 @@ public class HumanPlayer extends Player {
 
     @Override
     public void move() {
-        Coordinate currentCoor = getCurrentCell().getPosition();
-        Coordinate newCoor = currentCoor.translate(goTo.getVector());
-        if(!(newCoor.x < 0 || newCoor.y < 0 || newCoor.x >= game.DIMX ||newCoor.y >= game.DIMY)){
-            try {
-                getCurrentCell().setPlayerToNull();
-                game.getCell(newCoor).setPlayer(this);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+        if(estadoAtual == Estado.VIVO){
+            Coordinate currentCoor = getCurrentCell().getPosition();
+            Coordinate newCoor = currentCoor.translate(goTo.getVector());
+            if(!(newCoor.x < 0 || newCoor.y < 0 || newCoor.x >= game.DIMX ||newCoor.y >= game.DIMY)){
+                try {
+                    if(game.getCell(newCoor).isOcupied()){
+                        fight(game.getCell(newCoor).getPlayer());
+                        return;
+                    }
+                    getCurrentCell().setPlayerToNull();
+                    game.getCell(newCoor).setPlayer(this);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }

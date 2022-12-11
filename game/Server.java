@@ -9,7 +9,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Server extends Thread{
+public class Server extends Thread {
 
     private int numPlayers = 0;
     private int maxPlayers=2;
@@ -25,19 +25,18 @@ public class Server extends Thread{
 
     public void  doConnections() throws IOException {
 
-            Socket s = ss.accept();
-            BufferedReader in  = new BufferedReader(new InputStreamReader(s.getInputStream()));
-            ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
-            numPlayers++;
-            out.writeObject(numPlayers);
-            out.reset();
-            new InfoToClient( out).start();
-            new InfoFromClient(in).start();
-            HumanPlayer hp = new HumanPlayer(numPlayers, gui.getGame(), gui.getBarreira());
-            gui.getGame().addPlayerToGame(hp);
+        Socket s = ss.accept();
+        BufferedReader in  = new BufferedReader(new InputStreamReader(s.getInputStream()));
+        ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
+        numPlayers++;
+        out.writeObject(numPlayers);
+        out.reset();
+        HumanPlayer hp = new HumanPlayer(numPlayers, gui.getGame(), gui.getBarreira());
+        gui.getGame().addPlayerToGame(hp);
+        new InfoToClient(out).start();
+        new InfoFromClient(in, hp).start();
 
     }
-
     public void run(){
         while(numPlayers<maxPlayers){
             try {
@@ -47,7 +46,6 @@ public class Server extends Thread{
             }
         }
     }
-
 
 
     class InfoToClient extends Thread{
@@ -64,8 +62,7 @@ public class Server extends Thread{
                 try {
                     out.reset();
                     out.writeObject(gui.getGame());
-                    sleep(Game.REFRESH_INTERVAL);
-                } catch (IOException | InterruptedException e) {
+                } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
             }
@@ -76,16 +73,19 @@ public class Server extends Thread{
     class InfoFromClient extends Thread{
 
         private BufferedReader in;
+        private HumanPlayer hp;
 
-        public InfoFromClient(BufferedReader in){
+        public InfoFromClient(BufferedReader in, HumanPlayer hp){
             this.in = in;
+            this.hp = hp;
         }
 
         public void run(){
             while (true){
                 try {
                     String str = in.readLine();
-                    System.out.println("nova direção: " + str);
+                    hp.setGoTo(str);
+                    hp.move();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

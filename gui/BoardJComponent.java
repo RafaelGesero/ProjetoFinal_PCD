@@ -32,10 +32,11 @@ public class BoardJComponent extends JComponent implements KeyListener, Serializ
 	private transient Image obstacleImage = new ImageIcon("obstacle.png").getImage();
 	private transient Image humanPlayerImage= new ImageIcon("abstract-user-flat.png").getImage();
 	private Direction lastPressedDirection=null;
-	private final boolean alternativeKeys = false;
+	private final boolean alternativeKeys;
 
-	public BoardJComponent(Game game) {
+	public BoardJComponent(Game game, boolean alternativeKeys) {
 		this.game = game;
+		this.alternativeKeys = alternativeKeys;
 		setFocusable(true);
 		addKeyListener(this);
 	}

@@ -87,7 +87,7 @@ public abstract class Player implements  Serializable {
 		return id;
 	}
 
-	public byte sumStrength(Player losePlayer){
+	private byte sumStrength(Player losePlayer){
 		byte loseStrPlayer = losePlayer.getCurrentStrength();
 
 		if((currentStrength + loseStrPlayer) >= game.MAX_FINAL_STRENGTH){
@@ -96,6 +96,8 @@ public abstract class Player implements  Serializable {
 		}else
 			return (byte) (currentStrength + loseStrPlayer);
 	}
+
+	//pode haver porblemas se nao for sincronizado
 	public void fight(Player p) throws InterruptedException {
 		if(p.getEstadoAtual() == 1){
 			//System.out.println("A posição " + p.getCurrentCell().getPosition() + " está ocupada pelo player " + p.getIdentification() + " e o player " + this.getIdentification() + " deseja mover-se para célula, o que dará um confronto");
@@ -120,7 +122,8 @@ public abstract class Player implements  Serializable {
 				}
 			}
 		}else {
-			Thread.sleep(game.MAX_WAITING_TIME_FOR_MOVE);
+			if(!isHumanPlayer())
+				Thread.sleep(game.MAX_WAITING_TIME_FOR_MOVE);
 		}
 	}
 

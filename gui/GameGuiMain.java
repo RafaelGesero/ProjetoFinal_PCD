@@ -32,7 +32,7 @@ public class GameGuiMain implements Observer {
 	}
 
 	private void buildGui() {
-		boardGui = new BoardJComponent(game);
+		boardGui = new BoardJComponent(game, true);
 		frame.add(boardGui);
 		frame.setSize(800,800);
 		frame.setLocation(500, 150);
@@ -43,12 +43,11 @@ public class GameGuiMain implements Observer {
 		Server server = new Server(this);
 		server.start();
 		frame.setSize(800,800);
-		frame.setVisible(true);
+		frame.setVisible(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		finalJogo = new Barreira(3);
 		Thread.sleep(game.INITIAL_WAITING_TIME);
-
-
+		System.out.println("o jogo vai começar");
 		for(int i = 0 ; i < 10 ; i++){
 			Player p = new PhoneyHumanPlayer(i, game, finalJogo);
 			Thread t = new Thread((Runnable) p);
@@ -57,6 +56,9 @@ public class GameGuiMain implements Observer {
 		finalJogo.await();
 	}
 
+	public void addHumanPlayer(int humanId){
+		HumanPlayer hp = new HumanPlayer(humanId, game, finalJogo);
+	}
 	@Override
 	public void update(Observable o, Object arg) {
 		boardGui.repaint();
