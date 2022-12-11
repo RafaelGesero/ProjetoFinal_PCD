@@ -41,7 +41,7 @@ public class GameGuiMain implements Observer {
 
 	public void init() throws IOException, InterruptedException {
 		Server server = new Server(this);
-		server.doConnections();
+		server.start();
 		frame.setSize(800,800);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

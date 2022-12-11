@@ -9,7 +9,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Server {
+public class Server extends Thread{
 
     private int numPlayers = 0;
     private int maxPlayers=2;
@@ -24,7 +24,7 @@ public class Server {
     }
 
     public void  doConnections() throws IOException {
-        while (numPlayers < maxPlayers ){
+
             Socket s = ss.accept();
             BufferedReader in  = new BufferedReader(new InputStreamReader(s.getInputStream()));
             ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
@@ -35,8 +35,20 @@ public class Server {
             new InfoFromClient(in).start();
             HumanPlayer hp = new HumanPlayer(numPlayers, gui.getGame(), gui.getBarreira());
             gui.getGame().addPlayerToGame(hp);
+
+    }
+
+    public void run(){
+        while(numPlayers<maxPlayers){
+            try {
+                doConnections();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
+
+
 
     class InfoToClient extends Thread{
         private ObjectOutputStream out;
