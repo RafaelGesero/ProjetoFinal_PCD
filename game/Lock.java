@@ -6,6 +6,7 @@ public class Lock implements Serializable {
 
     private boolean close = false;
 
+
     public synchronized void lock() throws InterruptedException {
         if(close == true)
             wait();
