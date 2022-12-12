@@ -8,6 +8,8 @@ import game.*;
 
 import javax.swing.*;
 
+import static java.lang.Thread.sleep;
+
 
 public class GameGuiMain implements Observer {
 	private JFrame frame = new JFrame("pcd.io");
@@ -35,9 +37,9 @@ public class GameGuiMain implements Observer {
 	}
 
 
-	/*Envia o server a ele proprio para o Server ser enviado em loop
-	cria a barreira para o final do jogo
-	poe a thread dos jogadores automaticos a dormir o tempo inicial pedido no enunciado*/
+	/*Cria o servidor e fica á espera da ligação dos clientes, atraves do game
+	também é criada a barreira para o final do jogo
+	apos os jogadores automaticos serem criados a thred principal é colocada num sleep*/
 	public void init() throws IOException, InterruptedException {
 		Server server = new Server(this);
 		server.start();
@@ -45,7 +47,7 @@ public class GameGuiMain implements Observer {
 		frame.setVisible(true);
 		finalJogo= game.createBarreira();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Thread.sleep(game.INITIAL_WAITING_TIME);
+		sleep(game.INITIAL_WAITING_TIME);
 		System.out.println("O JOGO VAI COMEÇAR");
 		game.createPhoneyHumanPlayers();
 		finalJogo.await();

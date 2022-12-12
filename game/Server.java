@@ -24,11 +24,11 @@ public class Server extends Thread {
         ss = new ServerSocket(Server.PORTO);
     }
 
-    /*criar conexao e canais que farao a troca de dados entre o cliente e o servidor
+    /*criar conexao e canais que farao a troca de dados entre o cliente
+    e o servidor, cria também o jogador humano e o mesmo é adicionado ao jogo
     */
 
     public void  doConnections() throws IOException {
-
         socket = ss.accept();
         BufferedReader in  = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());

@@ -3,13 +3,8 @@ package game;
 
 
 import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Observable;
 
-import com.sun.source.tree.NewClassTree;
 import environment.Cell;
 import environment.Coordinate;
 
@@ -33,16 +28,15 @@ public class Game extends Observable implements Serializable{
 
 	public Game() {
 		board = new Cell[Game.DIMX][Game.DIMY];
-	
 		for (int x = 0; x < Game.DIMX; x++) 
 			for (int y = 0; y < Game.DIMY; y++) 
 				board[x][y] = new Cell(new Coordinate(x, y),this);
-
-
 	}
 	/** 
 	 * @param player 
 	 */
+
+	//quando o player é criado, o mesmo é adicionado a uma célula random
 	public void addPlayerToGame(Player player) {
 		Cell initialPos=getRandomCell();
 		try {
@@ -53,6 +47,7 @@ public class Game extends Observable implements Serializable{
 		notifyChange();
 	}
 
+	//criar a barreira para qeu seja possivel identificar os tres primeiros a finalizar o jogo
 	public Barreira createBarreira(){
 		finalJogo = new Barreira(NUM_FINISHED_PLAYERS_TO_END_GAME);
 		return finalJogo;
@@ -61,6 +56,7 @@ public class Game extends Observable implements Serializable{
 		return finalJogo;
 	}
 
+	//criar e inicia todos os players nao humanos
 	public void createPhoneyHumanPlayers(){
 		for(int i = 0; i < NUM_PLAYERS; i++){
 			Player p = new PhoneyHumanPlayer(i, this, finalJogo);
@@ -68,7 +64,6 @@ public class Game extends Observable implements Serializable{
 			t.start();
 		}
 	}
-
 	public Cell getCell(Coordinate at) {
 		return board[at.x][at.y];
 	}
@@ -80,11 +75,9 @@ public class Game extends Observable implements Serializable{
 		setChanged();
 		notifyObservers();
 	}
-
+	//retorna uma célula ramdom que se encontra dentro do tabuleiro
 	public Cell getRandomCell() {
 		Cell newCell=getCell(new Coordinate((int)(Math.random()*Game.DIMX),(int)(Math.random()*Game.DIMY)));
 		return newCell;
-
 	}
-
 }

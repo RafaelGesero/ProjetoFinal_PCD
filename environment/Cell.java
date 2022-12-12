@@ -28,14 +28,20 @@ public class Cell implements Serializable{
 		return str;
 
 	}
+
+	//retorna a coordenada da atual celula
 	public Coordinate getPosition() {
 		return position;
 	}
 
+
+	//retorna true se a cácula estiver ocupada por algum jogador
 	public boolean isOcupied() {
 		return player!=null;
 	}
 
+
+	//Antes de colocar o player na proxima célula o mesmo é retirado da célula anterior, com os devidos metodos de sincronização
 	public void setPlayerToNull() throws InterruptedException {
 		l.lock();
 		try{
@@ -50,6 +56,7 @@ public class Cell implements Serializable{
 		return player;
 	}
 
+	//quando o player necessiat de ir para uma célula o mesmo é colocado com os devidos metodos de sincronização
 	public void setPlayer(Player player) throws InterruptedException {
 		l.lock();
 		try{

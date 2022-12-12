@@ -1,16 +1,10 @@
 package game;
 
-import environment.Direction;
 import gui.BoardJComponent;
-import gui.GameGuiMain;
 
 import javax.swing.*;
-import javax.swing.text.Style;
-import java.awt.event.KeyEvent;
 import java.io.*;
-import java.net.InetAddress;
 import java.net.Socket;
-import java.util.ArrayList;
 
 public class Client extends Thread {
     private Socket socket;
@@ -19,9 +13,12 @@ public class Client extends Thread {
    private BoardJComponent boardGui;
    private Game game;
 
+   private JFrame frame;
     private ObjectInputStream in;
     private PrintWriter out;
 
+
+    //faz a conecção inicial com o servidor bem como a atribuição do id ao jogador
     public void runClient() throws InterruptedException, ClassNotFoundException, IOException {
         try{
             connectToServer();
@@ -32,6 +29,7 @@ public class Client extends Thread {
         }
     }
 
+    //cria a coneção e os canais(in e out) que farão a troca de dados com o servidor
     private void connectToServer() throws IOException {
             socket = new Socket("localhost", Server.PORTO);
              in = new ObjectInputStream(socket.getInputStream());
@@ -39,23 +37,26 @@ public class Client extends Thread {
 
     }
 
+    //cria a frame do cliente para que o mesmo possa ver o jogo
+    private void criarFrame(){
+        frame = new JFrame("jogador " + humanPlayerId);
+        frame.setSize(800,800);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocation(500, 350);
+        frame.setFocusable(true);
+    }
+
     public void run(){
         try {
             runClient();
-            JFrame frame = new JFrame("jogador " + humanPlayerId);
-            frame.setSize(800,800);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setLocation(500, 350);
-            frame.setFocusable(true);
+            criarFrame();
             game = null;
             if(humanPlayerId == 1){
                 boardGui = new BoardJComponent(game, true);
-                System.out.println("para realizar movimentos utiliza o teclado (WASD)");
+                System.out.println("Para realizar movimentos utiliza o teclado (WASD)");
             }else{
                 boardGui = new BoardJComponent(game, false );
-                System.out.println("para realizar movimentos utiliza as setas");
-
-
+                System.out.println("Para realizar movimentos utiliza as setas");
             }
             while(true){
                 game = (Game) in.readObject();

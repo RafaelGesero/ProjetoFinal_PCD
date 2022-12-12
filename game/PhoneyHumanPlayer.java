@@ -3,8 +3,6 @@ package game;
 import environment.Coordinate;
 import environment.Direction;
 
-
-
 /**
  * Class to demonstrate a player being added to the game.
  * @author luismota
@@ -30,12 +28,13 @@ public class PhoneyHumanPlayer extends Player implements Runnable{
 		return false;
 	}
 
-	//funçao que cria a energia inicial random dentro do possivel
+	//funçao que cria a energia inicial random, para o jogador automatico, dentro dos valores determinados
 	private byte inicialStrenght (){
 		return (byte) ((Math.random() * game.MAX_INITIAL_STRENGTH) + 1);
 	}
 
-	//funçao que define para onde se vai mover aleatoriamente o player entre as 4 direçoes possiveis
+
+	//funçao que define para onde se vai mover aleatoriamente o player automatico entre as 4 direçoes possiveis
 	private Direction moveTo(){
 		int rand = (int) ((Math.random() * 4) + 1);
 		switch (rand) {
@@ -51,7 +50,7 @@ public class PhoneyHumanPlayer extends Player implements Runnable{
 		return null;
 	}
 
-	//funçao que cria o movimento aleatorio entre os players automaticos
+	//funçao que cria o movimento aleatorio dos players automaticos
 	public  void  move() {
 		if(countMove == 1 && estadoAtual == Estado.VIVO){
 			Direction goTo = moveTo();
@@ -95,7 +94,7 @@ public class PhoneyHumanPlayer extends Player implements Runnable{
 			}
 		}
 		if (estadoAtual == Estado.TERMINAL)
-			barreira.countDown(getCurrentCell().getPlayer());
+			barreira.countDown(this);
 
 	}
 }

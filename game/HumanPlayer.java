@@ -14,6 +14,7 @@ public class HumanPlayer extends Player {
     }
 
 
+    //apos receber a direção pretendida pelo cliente a mesma é transformada para que possa ser feito o movimento
     public void setGoTo(String str){
         switch (str){
             case "UP":
@@ -36,6 +37,7 @@ public class HumanPlayer extends Player {
         return true;
     }
 
+    //move o player humano para a direção pretendida, apos ver se todas as condições o permitem
     @Override
     public void move() {
         if(estadoAtual == Estado.VIVO){
@@ -46,7 +48,7 @@ public class HumanPlayer extends Player {
                     if(game.getCell(newCoor).isOcupied()){
                         fight(game.getCell(newCoor).getPlayer());
                         if (estadoAtual == Estado.TERMINAL)
-                            barreira.countDown(getCurrentCell().getPlayer());
+                            barreira.countDown(this);
                         return;
                     }
                     getCurrentCell().setPlayerToNull();
