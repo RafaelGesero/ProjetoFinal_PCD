@@ -46,7 +46,7 @@ public class HumanPlayer extends Player {
                     if(game.getCell(newCoor).isOcupied()){
                         fight(game.getCell(newCoor).getPlayer());
                         if (estadoAtual == Estado.TERMINAL)
-                            barreira.countDown(getIdentification());
+                            barreira.countDown(getCurrentCell().getPlayer());
                         return;
                     }
                     getCurrentCell().setPlayerToNull();

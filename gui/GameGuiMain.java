@@ -34,6 +34,10 @@ public class GameGuiMain implements Observer {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
+
+	/*Envia o server a ele proprio para o Server ser enviado em loop
+	cria a barreira para o final do jogo
+	poe a thread dos jogadores automaticos a dormir o tempo inicial pedido no enunciado*/
 	public void init() throws IOException, InterruptedException {
 		Server server = new Server(this);
 		server.start();

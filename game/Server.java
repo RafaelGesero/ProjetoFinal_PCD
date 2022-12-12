@@ -24,6 +24,9 @@ public class Server extends Thread {
         ss = new ServerSocket(Server.PORTO);
     }
 
+    /*criar conexao e canais que farao a troca de dados entre o cliente e o servidor
+    */
+
     public void  doConnections() throws IOException {
 
         socket = ss.accept();
@@ -38,6 +41,7 @@ public class Server extends Thread {
         new InfoFromClient(in, hp).start();
 
     }
+
     public void run(){
         while(numPlayers<maxPlayers){
             try {
@@ -49,6 +53,8 @@ public class Server extends Thread {
     }
 
 
+
+    //funçao que envia a informçao para o cliente
     class InfoToClient extends Thread{
         private ObjectOutputStream out;
 
@@ -75,6 +81,7 @@ public class Server extends Thread {
 
     }
 
+    //funçao que recebe a informaçao do cliente
     class InfoFromClient extends Thread{
 
         private BufferedReader in;

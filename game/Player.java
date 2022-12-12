@@ -87,6 +87,7 @@ public abstract class Player implements  Serializable {
 		return id;
 	}
 
+	//funcao que verifica se a soma das energias ja ultrapassoo o valor maximo de energia (10), e caso passe torna o jogador TERMINAL
 	private byte sumStrength(Player losePlayer){
 		byte loseStrPlayer = losePlayer.getCurrentStrength();
 
@@ -97,10 +98,10 @@ public abstract class Player implements  Serializable {
 			return (byte) (currentStrength + loseStrPlayer);
 	}
 
-	//pode haver porblemas se nao for sincronizado
+	//funçao que define o vencedor entre 2 players, vencedor este que "absorve" a energia do player que perdeu a batalha (e se torna morto)
 	public void fight(Player p) throws InterruptedException {
 		if(p.getEstadoAtual() == 1){
-			//System.out.println("A posição " + p.getCurrentCell().getPosition() + " está ocupada pelo player " + p.getIdentification() + " e o player " + this.getIdentification() + " deseja mover-se para célula, o que dará um confronto");
+			System.out.println("A posição " + p.getCurrentCell().getPosition() + " está ocupada pelo player " + p.getIdentification() + " e o player " + this.getIdentification() + " deseja mover-se para célula, o que dará um confronto");
 			if (p.getCurrentStrength() > getCurrentStrength()) {
 				byte newStrength = p.sumStrength(this);
 				p.setCurrentStrength(newStrength);

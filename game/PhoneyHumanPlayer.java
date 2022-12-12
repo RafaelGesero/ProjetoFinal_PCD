@@ -3,9 +3,7 @@ package game;
 import environment.Coordinate;
 import environment.Direction;
 
-import java.io.Serializable;
-import java.lang.management.ManagementFactory;
-import java.lang.management.ThreadMXBean;
+
 
 /**
  * Class to demonstrate a player being added to the game.
@@ -32,10 +30,12 @@ public class PhoneyHumanPlayer extends Player implements Runnable{
 		return false;
 	}
 
+	//funçao que cria a energia inicial random dentro do possivel
 	private byte inicialStrenght (){
 		return (byte) ((Math.random() * game.MAX_INITIAL_STRENGTH) + 1);
 	}
 
+	//funçao que define para onde se vai mover aleatoriamente o player entre as 4 direçoes possiveis
 	private Direction moveTo(){
 		int rand = (int) ((Math.random() * 4) + 1);
 		switch (rand) {
@@ -51,6 +51,7 @@ public class PhoneyHumanPlayer extends Player implements Runnable{
 		return null;
 	}
 
+	//funçao que cria o movimento aleatorio entre os players automaticos
 	public  void  move() {
 		if(countMove == 1 && estadoAtual == Estado.VIVO){
 			Direction goTo = moveTo();
@@ -94,7 +95,7 @@ public class PhoneyHumanPlayer extends Player implements Runnable{
 			}
 		}
 		if (estadoAtual == Estado.TERMINAL)
-			barreira.countDown(getIdentification());
+			barreira.countDown(getCurrentCell().getPlayer());
 
 	}
 }
