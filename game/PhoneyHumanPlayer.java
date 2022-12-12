@@ -79,7 +79,6 @@ public class PhoneyHumanPlayer extends Player implements Runnable{
 	@Override
 	public void run() {
 		game.addPlayerToGame(this);
-	//	detectDeadLock();
 		try {
 			Thread.sleep(game.MAX_WAITING_TIME_FOR_MOVE);
 		} catch (InterruptedException e) {
@@ -98,12 +97,4 @@ public class PhoneyHumanPlayer extends Player implements Runnable{
 			barreira.countDown(getIdentification());
 
 	}
-
-
-	/*private static void detectDeadLock(){
-		ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
-		long[] threadIds = threadMXBean.findDeadlockedThreads();
-		boolean deadLock = threadIds != null && threadIds.length>0;
-		System.out.println("Deadlocks descobertos " + deadLock);
-	}*/
 }

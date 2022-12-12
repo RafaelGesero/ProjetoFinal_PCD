@@ -48,10 +48,15 @@ public class Client extends Thread {
             frame.setLocation(500, 350);
             frame.setFocusable(true);
             game = null;
-            if(humanPlayerId == 1)
+            if(humanPlayerId == 1){
                 boardGui = new BoardJComponent(game, true);
-            else
+                System.out.println("para realizar movimentos utiliza o teclado (WASD)");
+            }else{
                 boardGui = new BoardJComponent(game, false );
+                System.out.println("para realizar movimentos utiliza as setas");
+
+
+            }
             while(true){
                 game = (Game) in.readObject();
                 boardGui.refresh(game);
@@ -62,7 +67,6 @@ public class Client extends Thread {
                 frame.addKeyListener(boardGui);
 
                 if (boardGui.getLastPressedDirection() != null){
-                    System.out.println(boardGui.getLastPressedDirection().toString());
                     out.println(boardGui.getLastPressedDirection().toString());
                     boardGui.clearLastPressedDirection();
                 }

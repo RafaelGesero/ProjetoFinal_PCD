@@ -28,9 +28,6 @@ public class Cell implements Serializable{
 		return str;
 
 	}
-
-
-
 	public Coordinate getPosition() {
 		return position;
 	}
@@ -53,7 +50,6 @@ public class Cell implements Serializable{
 		return player;
 	}
 
-	// Should not be used like this in the initial state: cell might be occupied, must coordinate this operation
 	public void setPlayer(Player player) throws InterruptedException {
 		l.lock();
 		try{
@@ -63,10 +59,5 @@ public class Cell implements Serializable{
 		}finally {
 			l.unlock();
 		}
-
-
 	}
-
-
-
 }

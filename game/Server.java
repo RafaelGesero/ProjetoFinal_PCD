@@ -32,7 +32,7 @@ public class Server extends Thread {
         numPlayers++;
         out.writeObject(numPlayers);
         out.reset();
-        HumanPlayer hp = new HumanPlayer(numPlayers, gui.getGame(), gui.getBarreira());
+        HumanPlayer hp = new HumanPlayer(numPlayers, gui.getGame(), gui.getGame().getBarreira());
         gui.getGame().addPlayerToGame(hp);
         new InfoToClient(out).start();
         new InfoFromClient(in, hp).start();
@@ -65,10 +65,7 @@ public class Server extends Thread {
                     out.writeObject(gui.getGame());
                 } catch (IOException e) {
                     try {
-                        System.out.println("O jogo terminou de fomra forçada");
                         socket.close();
-                        System.exit(0);
-
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -89,20 +86,23 @@ public class Server extends Thread {
         }
 
         public void run(){
-            while (true){
-                try {
-                    String str = in.readLine();
-                    hp.setGoTo(str);
-                    hp.move();
-                } catch (IOException e) {
+                while (true) {
                     try {
-                        socket.close();
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
+                        if (hp.getEstadoAtual() != 3) {
+                            String str = in.readLine();
+                            hp.setGoTo(str);
+                            hp.move();
+                        }
 
+                    } catch (IOException e) {
+                        try {
+                            socket.close();
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+
+                    }
                 }
-            }
         }
 
 

@@ -38,7 +38,6 @@ public class HumanPlayer extends Player {
 
     @Override
     public void move() {
-        System.out.println(estadoAtual);
         if(estadoAtual == Estado.VIVO){
             Coordinate currentCoor = getCurrentCell().getPosition();
             Coordinate newCoor = currentCoor.translate(goTo.getVector());

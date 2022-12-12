@@ -29,6 +29,8 @@ public class Game extends Observable implements Serializable{
 
 	protected Cell[][] board;
 
+	private Barreira finalJogo;
+
 	public Game() {
 		board = new Cell[Game.DIMX][Game.DIMY];
 	
@@ -49,7 +51,22 @@ public class Game extends Observable implements Serializable{
 			throw new RuntimeException(e);
 		}
 		notifyChange();
-		
+	}
+
+	public Barreira createBarreira(){
+		finalJogo = new Barreira(NUM_FINISHED_PLAYERS_TO_END_GAME);
+		return finalJogo;
+	}
+	public Barreira getBarreira(){
+		return finalJogo;
+	}
+
+	public void createPhoneyHumanPlayers(){
+		for(int i = 0; i < NUM_PLAYERS; i++){
+			Player p = new PhoneyHumanPlayer(i, this, finalJogo);
+			Thread t = new Thread((Runnable) p);
+			t.start();
+		}
 	}
 
 	public Cell getCell(Coordinate at) {
@@ -65,7 +82,6 @@ public class Game extends Observable implements Serializable{
 	}
 
 	public Cell getRandomCell() {
-
 		Cell newCell=getCell(new Coordinate((int)(Math.random()*Game.DIMX),(int)(Math.random()*Game.DIMY)));
 		return newCell;
 

@@ -25,9 +25,6 @@ public class GameGuiMain implements Observer {
 		return game;
 	}
 
-	public Barreira getBarreira(){
-		return finalJogo;
-	}
 
 	private void buildGui() {
 		boardGui = new BoardJComponent(game, true);
@@ -41,16 +38,12 @@ public class GameGuiMain implements Observer {
 		Server server = new Server(this);
 		server.start();
 		frame.setSize(800,800);
-		frame.setVisible(false);
+		frame.setVisible(true);
+		finalJogo= game.createBarreira();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		finalJogo = new Barreira(3);
 		Thread.sleep(game.INITIAL_WAITING_TIME);
-		System.out.println("o jogo vai começar");
-		for(int i = 0 ; i < 90 ; i++){
-			Player p = new PhoneyHumanPlayer(i, game, finalJogo);
-			Thread t = new Thread((Runnable) p);
-			t.start();
-		}
+		System.out.println("O JOGO VAI COMEÇAR");
+		game.createPhoneyHumanPlayers();
 		finalJogo.await();
 	}
 
