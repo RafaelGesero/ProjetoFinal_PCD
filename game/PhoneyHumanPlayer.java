@@ -54,21 +54,23 @@ public class PhoneyHumanPlayer extends Player implements Runnable{
 	public  void  move() {
 		if(countMove == 1 && estadoAtual == Estado.VIVO){
 			Direction goTo = moveTo();
-			Coordinate currentCor = getCurrentCell().getPosition();
-			Coordinate newCoor = currentCor.translate(goTo.getVector());
+			Coordinate currentCoor = getCurrentCell().getPosition();
+			Coordinate newCoor = currentCoor.translate(goTo.getVector());
 			if(!(newCoor.x < 0 || newCoor.y < 0 || newCoor.x >= game.DIMX ||newCoor.y >= game.DIMY)){
 				try{
-					game.getCell(currentCor).lockCell();
+					game.getCell(currentCoor).lockCell();
 					game.getCell(newCoor).lockCell();
-					System.out.println("as celulas: " + currentCor + " e " + newCoor + " estão bloqueadas");
+
+
 					if(game.getCell(newCoor).isOcupied()){
 						fight(game.getCell(newCoor).getPlayer());
 						return;
 					}
 					getCurrentCell().setPlayerToNull();
 					game.getCell(newCoor).setPlayer(this);
+
 				}finally {
-					game.getCell(currentCor).unlockCell();
+					game.getCell(currentCoor).unlockCell();
 					game.getCell(newCoor).unlockCell();
 				}
 			}

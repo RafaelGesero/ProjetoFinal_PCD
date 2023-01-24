@@ -111,15 +111,18 @@ public abstract class Player implements  Serializable {
 				setCurrentStrength(newStrength);
 				p.estadoAtual = Estado.MORTO;
 			} else {
-				byte newStrength = p.sumStrength(this);
+
 				Player[] names = {this, p};
 				Player name = names[(int) (Math.random() * (double) names.length)];
 				if (p.getIdentification() == name.getIdentification()) {
+					byte newStrength = p.sumStrength(this);
 					p.setCurrentStrength(newStrength);
 					estadoAtual = Estado.MORTO;
 				} else{
+					byte newStrength = sumStrength(p);
 					setCurrentStrength(newStrength);
 					p.estadoAtual = Estado.MORTO;
+
 				}
 			}
 		}else {
