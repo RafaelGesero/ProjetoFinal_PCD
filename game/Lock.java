@@ -8,16 +8,17 @@ public class Lock implements Serializable {
 
 
     public synchronized void lock() throws InterruptedException {
-        if(close == true)
+        if(close)
             wait();
         close = true;
     }
 
     public synchronized void unlock(){
-        if(close == true){
+        if(close){
             close = false;
             notifyAll();
         }
     }
+    
 
 }

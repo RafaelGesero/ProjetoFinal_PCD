@@ -44,18 +44,14 @@ public class HumanPlayer extends Player {
             Coordinate currentCoor = getCurrentCell().getPosition();
             Coordinate newCoor = currentCoor.translate(goTo.getVector());
             if(!(newCoor.x < 0 || newCoor.y < 0 || newCoor.x >= game.DIMX ||newCoor.y >= game.DIMY)){
-                try {
-                    if(game.getCell(newCoor).isOcupied()){
-                        fight(game.getCell(newCoor).getPlayer());
-                        if (estadoAtual == Estado.TERMINAL)
-                            barreira.countDown(this);
-                        return;
-                    }
-                    getCurrentCell().setPlayerToNull();
-                    game.getCell(newCoor).setPlayer(this);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                if(game.getCell(newCoor).isOcupied()){
+                    fight(game.getCell(newCoor).getPlayer());
+                    if (estadoAtual == Estado.TERMINAL)
+                        barreira.countDown(this);
+                    return;
                 }
+                getCurrentCell().setPlayerToNull();
+                game.getCell(newCoor).setPlayer(this);
             }
         }
 

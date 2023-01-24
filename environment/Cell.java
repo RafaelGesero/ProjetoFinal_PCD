@@ -6,6 +6,7 @@ import game.Lock;
 import game.Player;
 
 import java.io.Serializable;
+import java.util.concurrent.BlockingDeque;
 
 
 public class Cell implements Serializable{
@@ -42,29 +43,38 @@ public class Cell implements Serializable{
 
 
 	//Antes de colocar o player na proxima célula o mesmo é retirado da célula anterior, com os devidos metodos de sincronização
-	public void setPlayerToNull() throws InterruptedException {
-		l.lock();
-		try{
+	public synchronized void setPlayerToNull(){
 			player = null;
-		}finally {
-			l.unlock();
-		}
+			notify();
 	}
-
-
 	public Player getPlayer() {
 		return player;
 	}
 
-	//quando o player necessiat de ir para uma célula o mesmo é colocado com os devidos metodos de sincronização
-	public void setPlayer(Player player) throws InterruptedException {
-		l.lock();
-		try{
-			this.player = player;
-			player.returnPos(this);
-			player.setEstadoAtual(Estado.VIVO);
-		}finally {
-			l.unlock();
+	public void lockCell(){
+		try {
+			l.lock();
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
 		}
+	}
+
+	public void unlockCell(){
+		l.unlock();
+	}
+
+	public synchronized void setInicialPlayer(Player player) throws InterruptedException {
+		while(isOcupied()){
+			System.out.println("A celula está ocupada, por isso o player " + player.getIdentification()  + " vai ficar á espera");
+			wait();
+		}
+		setPlayer(player);
+	}
+
+	//quando o player necessiat de ir para uma célula o mesmo é colocado com os devidos metodos de sincronização
+	public void setPlayer(Player player){
+		this.player = player;
+		player.returnPos(this);
+		player.setEstadoAtual(Estado.VIVO);
 	}
 }

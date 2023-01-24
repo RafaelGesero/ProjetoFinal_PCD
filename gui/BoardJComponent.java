@@ -100,7 +100,6 @@ public class BoardJComponent extends JComponent implements KeyListener, Serializ
 								(int) ((p.y + .9) * cellHeight));
 					}
 				}
-
 			}
 	}
 

@@ -40,7 +40,7 @@ public class Game extends Observable implements Serializable{
 	public void addPlayerToGame(Player player) {
 		Cell initialPos=getRandomCell();
 		try {
-			initialPos.setPlayer(player);
+			initialPos.setInicialPlayer(player);
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		}
@@ -52,13 +52,10 @@ public class Game extends Observable implements Serializable{
 		finalJogo = new Barreira(NUM_FINISHED_PLAYERS_TO_END_GAME);
 		return finalJogo;
 	}
-	public Barreira getBarreira(){
-		return finalJogo;
-	}
 
 	//criar e inicia todos os players nao humanos
 	public void createPhoneyHumanPlayers(){
-		for(int i = 0; i < NUM_PLAYERS; i++){
+		for(int i = 0; i < 90; i++){
 			Player p = new PhoneyHumanPlayer(i, this, finalJogo);
 			Thread t = new Thread((Runnable) p);
 			t.start();
@@ -79,5 +76,9 @@ public class Game extends Observable implements Serializable{
 	public Cell getRandomCell() {
 		Cell newCell=getCell(new Coordinate((int)(Math.random()*Game.DIMX),(int)(Math.random()*Game.DIMY)));
 		return newCell;
+	}
+
+	public Barreira getBarreira(){
+		return finalJogo;
 	}
 }

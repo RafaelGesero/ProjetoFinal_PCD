@@ -1,5 +1,6 @@
 package game;
 
+import environment.Cell;
 import environment.Coordinate;
 import environment.Direction;
 
@@ -49,24 +50,26 @@ public class PhoneyHumanPlayer extends Player implements Runnable{
 		}
 		return null;
 	}
-
 	//funçao que cria o movimento aleatorio dos players automaticos
 	public  void  move() {
 		if(countMove == 1 && estadoAtual == Estado.VIVO){
 			Direction goTo = moveTo();
 			Coordinate currentCor = getCurrentCell().getPosition();
 			Coordinate newCoor = currentCor.translate(goTo.getVector());
-
 			if(!(newCoor.x < 0 || newCoor.y < 0 || newCoor.x >= game.DIMX ||newCoor.y >= game.DIMY)){
-				try {
-				if(game.getCell(newCoor).isOcupied()){
-					fight(game.getCell(newCoor).getPlayer());
-					return;
-				}
-				getCurrentCell().setPlayerToNull();
-				game.getCell(newCoor).setPlayer(this);
-				} catch (InterruptedException e) {
-					throw new RuntimeException(e);
+				try{
+					game.getCell(currentCor).lockCell();
+					game.getCell(newCoor).lockCell();
+					System.out.println("as celulas: " + currentCor + " e " + newCoor + " estão bloqueadas");
+					if(game.getCell(newCoor).isOcupied()){
+						fight(game.getCell(newCoor).getPlayer());
+						return;
+					}
+					getCurrentCell().setPlayerToNull();
+					game.getCell(newCoor).setPlayer(this);
+				}finally {
+					game.getCell(currentCor).unlockCell();
+					game.getCell(newCoor).unlockCell();
 				}
 			}
 			countMove = originalStrength;
@@ -95,6 +98,5 @@ public class PhoneyHumanPlayer extends Player implements Runnable{
 		}
 		if (estadoAtual == Estado.TERMINAL)
 			barreira.countDown(this);
-
 	}
 }

@@ -99,7 +99,7 @@ public abstract class Player implements  Serializable {
 	}
 
 	//funçao que define o vencedor entre 2 players, vencedor este que "absorve" a energia do player que perdeu a batalha e altera o estado do mesmo
-	public void fight(Player p) throws InterruptedException {
+	public void fight(Player p)  {
 		if(p.getEstadoAtual() == 1){
 			//System.out.println("A posição " + p.getCurrentCell().getPosition() + " está ocupada pelo player " + p.getIdentification() + " e o player " + this.getIdentification() + " deseja mover-se para célula, o que dará um confronto");
 			if (p.getCurrentStrength() > getCurrentStrength()) {
@@ -123,8 +123,13 @@ public abstract class Player implements  Serializable {
 				}
 			}
 		}else {
-			if(!isHumanPlayer())
-				Thread.sleep(game.MAX_WAITING_TIME_FOR_MOVE);
+			if(!isHumanPlayer()) {
+				try {
+					Thread.sleep(game.MAX_WAITING_TIME_FOR_MOVE);
+				} catch (InterruptedException e) {
+					throw new RuntimeException(e);
+				}
+			}
 		}
 	}
 
